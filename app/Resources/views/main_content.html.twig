@@ -1,0 +1,44 @@
+<div class="content">
+    <div class="popular">
+        <div class="popular-title">
+            <div class="badge"></div>
+            <p>{{popular_title}}</p>
+        </div>
+        <div class="elements-container">
+            {% for element in popular_list %}
+                <div class="popular-element">
+                    <div class="popular-image cursor-pointer" onClick="window.location.href='{{element.page_link}}'">
+                        <img src="{{element.photo_path}}" />
+                    </div>
+                    <div class="element-name cursor-pointer"><p>{{element.name}}</p></div>
+                </div>
+            {% endfor %}
+        </div>
+     </div>
+    {% for element in content_list %}
+        <div class="content-element">
+            <div class="description">
+                <div class="photo" >
+                    <img src="{{element.photo_path}}" />
+                </div>
+                <div class="description-container">
+                    <div class="caption outgoing-left">
+                        <h1>{{element.caption}}</h1>
+                    </div>
+                    <div class="go">
+                        <div class="desc-cars outgoing-left">
+                            <h1>{{element.description}}</h1>
+                        </div>
+                        <div class="characteristics-cars outgoing-left">
+                            {% for characteristic in element.characteristics %}
+                                <div class="characteristic-field">
+                                    {{characteristic.name}} : {{characteristic.value}}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

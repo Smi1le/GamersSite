@@ -1,0 +1,122 @@
+<?php
+namespace Acme\StoreBundle\Document;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/**
+ * @MongoDB\Document(repositoryClass="Acme\StoreBundle\Repository\ProductRepository")
+ */
+class Product
+{
+    /**
+     * @MongoDB\Id
+     */
+    protected $id;
+
+    /**
+     * @MongoDB\Field(type="string")
+     */
+    protected $name;
+
+    /**
+     * @MongoDB\Field(type="float")
+     */
+    protected $price;
+
+    /**
+     * @MongoDB\Field(type="float")
+     */
+    protected $power;
+
+    /**
+     * @MongoDB\Field(type="string")
+     */
+    protected $equipment;
+
+    /**
+     * @MongoDB\Field(type="string")
+     */
+    protected $scale;
+
+    /**
+     * @MongoDB\Field(type="float")
+     */
+    protected $kindOfChassis;
+
+    /**
+     * Get id
+     *
+     * @return id $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string $name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set price
+     *
+     * @param float $price
+     * @return $this
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return float $price
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    
+    /**
+     * Set power
+     *
+     * @param string $power
+     * @return $this
+     */
+    public function setPower($power)
+    {
+        $this->power = $power;
+        return $this;
+    }
+
+    /**
+     * Get power
+     *
+     * @return string $power
+     */
+    public function getPower()
+    {
+        return $this->power;
+    }
+}

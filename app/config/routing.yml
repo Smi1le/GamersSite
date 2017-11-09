@@ -1,0 +1,7 @@
+acme_store:
+    resource: "@AcmeStoreBundle/Controller/"
+    type:     annotation
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation

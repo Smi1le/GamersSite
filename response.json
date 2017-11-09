@@ -1,0 +1,109 @@
+
+/*
+ * CREATE
+ */
+{
+	"message":"OK",
+	"code":0,
+	"time":1508499593298,
+	"response":{
+		"id":"59e9e089438fcf0e682a0f5e",
+		"content":{
+			"userId":"59c21ebf6c363c2b186116b8",
+			"type":"category",
+			"data":{
+				"id":"59e9e050438fcf0e682a0f5d",
+				"content":{
+					"name":"Rest Client New",
+					"id":"59e9e050438fcf0e682a0f5d"
+				},
+				"command":"create",
+				"date":null,
+				"appInstanceId":null
+			},
+			"id":null
+		},
+		"date":1508499593270
+	}
+}
+
+
+
+/*
+ * UPDATE
+ */
+{
+	"message":"OK",
+	"code":0,
+	"time":1508500090572,
+	"response":{
+		"id":"59e9e27a438fcf0e682a0f61",
+		"content":{
+			"userId":"59c21ebf6c363c2b186116b8",
+			"type":"category",
+			"data":{
+				"id":"59e9e050438fcf0e682a0f5d",
+				"content":{
+					"name":"Rest Client New Update",
+					"id":"59e9e050438fcf0e682a0f5d"
+				},
+				"command":"update",
+				"date":null,
+				"appInstanceId":null
+			},
+			"id":null
+		},
+		"date":1508500090060
+	}
+}
+
+
+/*
+ * DELETE
+ */
+{
+	"message":"OK",
+	"code":0,
+	"time":1508500240880,
+	"response":{
+		"id":"59e9e310438fcf0e682a0f64",
+		"content":{
+			"userId":
+			"59c21ebf6c363c2b186116b8",
+			"type":"category",
+			"data":{
+				"id":"59e9e050438fcf0e682a0f5d",
+				"content": ["59e9e050438fcf0e682a0f5d"],
+				"command":"delete",
+				"date":null,
+				"appInstanceId":null
+			},
+			"id":null
+		},
+		"date":1508500240853
+	}
+}
+
+{
+	"message":"OK",
+	"code":0,
+	"time":1508505153035,
+	"response":{
+		"id":"59e9f63f438fcf1b1c2c94b9",
+		"content":{
+			"userId":"59c21ebf6c363c2b186116b8",
+			"type":"category",
+			"data":{
+				"id":"59e9e38c438fcf0e682a0f67",
+				"content":[
+					"59e9e38c438fcf0e682a0f67"
+				],
+				"command":"delete",
+				"date":null,
+				"appInstanceId":"d2b3721b3ee6-a30b999f5325-15f39b8c194"
+			},
+			"id":null
+		},
+		"date":1508505151656
+	}
+}

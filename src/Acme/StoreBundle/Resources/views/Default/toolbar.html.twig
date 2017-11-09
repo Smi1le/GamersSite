@@ -1,0 +1,9 @@
+<div class="sidebar">
+    <div class="sidebar-container">
+        {% for element in sidebar_elements %}
+            <div class="sidebar-element" onClick="window.location.href='{{element.page_link}}'">
+                <li>{{element.name}}</li>
+            </div>
+        {% endfor %}
+    </div>
+</div>

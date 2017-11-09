@@ -1,0 +1,21 @@
+<div class="main-container">
+    {% include "toolbar.html.twig" %}
+    <div class="content">
+        <div class="popular-title">
+            <div class="badge"></div>
+            <p>{{catalog_title}}</p>
+        </div>
+        <div class="elements-container">
+            {% for element in catalog_list %}
+                
+                    <div class="popular-element">
+                        <div class="popular-image cursor-pointer" onClick="window.location.href='{{element.page_link}}'">
+                            <img src="{{element.photo_path}}" />
+                        </div>
+                        <div class="element-name cursor-pointer"><p>{{element.name}}</p></div>
+                    </div>
+            
+            {% endfor %}
+        </div>
+    </div>
+</div>
