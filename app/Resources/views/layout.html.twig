@@ -1,0 +1,29 @@
+{% extends 'base/base.html.twig' %}
+
+
+
+
+
+
+
+{% block ies %}
+
+    <section id="wrapper">
+        <section class="main-col">
+            {% block body %}{% endblock %}
+        </section>
+
+        {% block sidebar %}
+            <aside class="sidebar">
+                Sidebar content
+            </aside>
+        {% endblock %}
+
+        <div id="footer">
+            {% block footer %}
+                Symfony2 blog tutorial - created by <a href="https://github.com/dsyph3r">dsyph3r</a>
+            {% endblock %}
+        </div>
+    </section>
+
+{% endblock %}

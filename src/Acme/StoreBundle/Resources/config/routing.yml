@@ -1,0 +1,5 @@
+AcmeStoreBundle_contact:
+    path:  /lk
+    defaults: { _controller: "AcmeStoreBundle:Default:contact" }
+    requirements:
+        methods:  GET|POST

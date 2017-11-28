@@ -35,6 +35,31 @@ body {
     margin-left: 5px;
 }
 
+.message {
+    display: none;
+    margin-left: -350px;
+    padding: 10px;
+    margin-top: 17px;
+    background: #f3f3f3;
+    height: 200px;
+    -moz-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.button-control-panel:hover .message {
+    z-index: 9999;
+}
+
+footer {
+    background-color: #e2f6ff;
+    width: 100%;
+    height: 20px;
+    bottom: 0px;
+    position: fixed;
+    flex: 0 0 auto;
+}
+
 .search {
     float: right;
     margin: 10px 3% 0px 0px;
@@ -51,6 +76,11 @@ body {
     border-width: 0px;
 }
 
+header {
+    max-height: 50px;
+    min-height: 50px;
+}
+
 .header-box div {
     display: inline-block;
 }
@@ -64,7 +94,6 @@ body {
 .control-buttons-container {
     float: right;
     width: 8%;
-    margin-top: 10px;
     margin-right: 50px;
 }
 
@@ -79,7 +108,9 @@ body {
 
 .main-container {
     width: 80%;
-    padding: 5% 10% 0 10%;
+    padding: 2% 10% 0 10%;
+    min-height: 500px;
+    max-height: 2000px;
 }
 
 .sidebar {
@@ -90,11 +121,10 @@ body {
 }
 
 .content {
-    width: 75%;
     float: right;
     position: relative;
     background-color: #b1e4ee;
-    height: 2000px;
+    height: 100%;
 }
 
 .sidebar-element {
@@ -146,6 +176,7 @@ body {
 
 .characteristic-field {
     display: inline-block;
+    margin-right: 170px;
 }
 
 .outgoing-left {
@@ -186,4 +217,89 @@ body {
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+.button-registration-link {
+    width: 50%;
+    float: right;
+    margin-top: 20px;
+    height: 50px;
+    display: inline-block;
+    background-color: aqua;
+    font-size: 25px;
+    cursor: default;
+}
+
+.button-autorization-link {
+    display: inline-block;
+    margin-top: 20px;
+    width: 50%;
+    height: 50px;
+    background-color: green;
+    font-size: 25px;
+    cursor: default;
+}
+
+.header-lk-not-enter {
+    width: 73%;
+    margin-left: 16%;
+}
+
+.header-lk-not-enter p {
+    font-size: 25px;
+    cursor: default;
+    margin-left: 56px;
+    margin-top: 10px;
+}
+
+.lk-not-enter-content {
+    width: 80%;
+    margin-left: 10%;
+    background-color: blue;
+    height: 400px;
+}
+
+.lk-not-enter-content .con {
+    width: 80%;
+    margin-left: 10%;
+}
+
+.login-form {
+    width: 60%;
+    margin-left: 20%;
+}
+
+.field-login-form {
+    width: 100%;
+    background-color: azure;
+    height: 30px;
+    margin-top: 5px;
+}
+
+.entering_button {
+    width: 48%;
+    background-color: azure;
+    height: 30px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.forgotten_password {
+    width: 48%;
+    background-color: #0a660c;
+    height: 30px;
+    margin-top: 5px;
+}
+
+.registration_button {
+    width: 48%;
+    background-color: azure;
+    height: 30px;
+    margin-top: 5px;
+    margin-right: 4%;
+    display: inline-block;
+}
+
+.to-right-side {
+    float: right;
 }

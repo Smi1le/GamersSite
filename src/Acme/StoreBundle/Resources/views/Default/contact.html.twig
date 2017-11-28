@@ -1,0 +1,24 @@
+
+{% block title %}Contact{% endblock%}
+
+{% block body %}
+    <header>
+        <h1>Contact symblog</h1>
+    </header>
+
+    <p>Want to contact symblog?</p>
+
+    {{ form_start(form, { 'action': path('AcmeStoreBundle_contact'), 'method': 'POST', 'attr': {'class': 'blogger'} }) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.login) }}
+    {{ form_row(form.password) }}
+    {{ form_row(form.password_repeat) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.nickname) }}
+
+    {{ form_rest(form) }}
+
+    <input type="submit" value="Submit" />
+
+{% endblock %}

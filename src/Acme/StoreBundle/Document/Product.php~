@@ -119,4 +119,80 @@ class Product
     {
         return $this->power;
     }
+
+    /**
+     * Set equipment
+     *
+     * @param string $equipment
+     * @return $this
+     */
+    public function setEquipment($equipment)
+    {
+        $this->equipment = $equipment;
+        return $this;
+    }
+
+    /**
+     * Get equipment
+     *
+     * @return string $equipment
+     */
+    public function getEquipment()
+    {
+        return $this->equipment;
+    }
+
+    /**
+     * Set scale
+     *
+     * @param string $scale
+     * @return $this
+     */
+    public function setScale($scale)
+    {
+        $this->scale = $scale;
+        return $this;
+    }
+
+    /**
+     * Get scale
+     *
+     * @return string $scale
+     */
+    public function getScale()
+    {
+        return $this->scale;
+    }
+
+    /**
+     * Set kindOfChassis
+     *
+     * @param float $kindOfChassis
+     * @return $this
+     */
+    public function setKindOfChassis($kindOfChassis)
+    {
+        $this->kindOfChassis = $kindOfChassis;
+        return $this;
+    }
+
+    /**
+     * Get kindOfChassis
+     *
+     * @return float $kindOfChassis
+     */
+    public function getKindOfChassis()
+    {
+        return $this->kindOfChassis;
+    }
+
+    public function toString() 
+    {
+        return strval($this->price) . ", ". 
+            $this->name . ", ".
+            $this->power . ", ".
+            $this->equipment . ", ".
+            $this->scale . ", ".
+            strval($this->kindOfChassis) . ", ";
+    }
 }

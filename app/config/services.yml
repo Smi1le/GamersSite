@@ -33,3 +33,10 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    userProvider:
+            class: Acme\StoreBundle\Security\UserProvider
+
+    userAuthenticator:
+            class:     Acme\StoreBundle\Security\UserAuthenticator
+            arguments: ["@security.password_encoder"]

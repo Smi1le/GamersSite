@@ -6,15 +6,14 @@
         </div>
         <div class="elements-container">
             {% for element in popular_list %}
-                <div class="popular-element">
-                    <div class="popular-image cursor-pointer" onClick="window.location.href='{{element.page_link}}'">
-                        <img src="{{element.photo_path}}" />
-                    </div>
-                    <div class="element-name cursor-pointer"><p>{{element.name}}</p></div>
-                </div>
+                {% include "car_element.html.twig" %}
             {% endfor %}
         </div>
      </div>
+     <div class="popular-title">
+            <div class="badge"></div>
+            <p>{{last_added_title}}</p>
+        </div>
     {% for element in content_list %}
         <div class="content-element">
             <div class="description">

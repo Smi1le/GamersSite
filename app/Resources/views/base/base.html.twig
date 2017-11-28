@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset=utf-8" />
+    <title>{% block title %}TITLE{% endblock %} - rc-go.ru</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/screen.css') }}" />
+    {% block stylesheetsInclude %}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+
+<section id="header-wrapper">
+    <header id="header">
+        <div class="header-container">
+            <div class="header-box">
+                <div class="logo"> </div>
+                <div class="control-buttons-container">
+                    {#<div class="button-home-page button-control-panel cursor-pointer">
+                        <a href="{{ path('default_show') }}"></a>
+                    </div>#}
+                    <ul class="navigation">
+                        <li><a class="blue" href="{{ path('default_show') }}"></a></li>
+                        {#<div class="button-catalog-page button-control-panel cursor-pointer">
+                            <a href="{{ path('default_show') }}"></a>
+                        </div>#}
+                        <li><a class="green" href="{{ path('catalog_show') }}"></a></li>
+                        {#<div class="button-lk-page button-control-panel cursor-pointer">
+                            <a href="{{ path('AcmeStoreBundle_personalArea') }}"></a>
+                        </div>#}
+                        <li><a class="orange" href="{{ path('AcmeStoreBundle_login') }}"></a></li>
+                    </ul>
+                </div>
+                <input class="search" type="text" placeholder="Search"/>
+            </div>
+        </div>
+    </header>
+</section>
+
+{% block ies %}
+
+{% endblock %}
+
+{% block javascripts %}{% endblock %}
+</body>

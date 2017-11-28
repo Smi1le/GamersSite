@@ -11,49 +11,14 @@ use Acme\StoreBundle\MongoDB\DAO\ProductDAO;
 
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/default", name="default_action")
-     */
-    public function indexAction(Request $request)
-    {
-        // $product = new Product();
-        // $product->setName('Yes baby');
-        // $product->setPrice('19.99');
-        // $product->setScale("1:10");
-        // $product->setEquipment("2.4 GHz");
-        // $manager = $this->get("doctrine_mongodb")->getManager();
-
-        // $manager->persist($product);
-        // $manager->flush();
-
-        $string = "";
-        foreach ($this->getRepository("AcmeStoreBundle:Product")->findAll() as $cursor){
-            $string =$string . $cursor->toString() . "\n";
-        }
-
-        return $this->render($string);
-    }
-
-    protected function getRepository($namespace) {
+    protected function getRepository() {
         return $this
             ->get("doctrine_mongodb")
-            ->getManager()
-            ->getRepository($namespace);
-    }
-
-    /**
-     * @Route("/", name="default_show")
-     */
-    public function createAction()
-    {
-         return $this->render('AcmeStoreBundle:Default:body.html.twig', array(
-                "title_name" => "My New Page",
-                "message" => "Hello World!!!!"
-            ));
+            ->getManager();
     }
 
     protected function save($object) {
-        $manager = getRepository();
+        $manager = $this->getRepository();
         $manager->persist($object);
         $manager->flush();
     }
@@ -71,8 +36,23 @@ class DefaultController extends Controller
     }
 
     protected function delete($id, $namespace) {
-        $manager = getRepository($namespace);
+        $manager = $this->getRepository($namespace);
         $manager->remove($product);
         $manager->flush();
+    }
+
+    protected function addHeaderLink($arrayResponse) {
+        $arrayResponse["home_link"] = "/";
+        $arrayResponse["catalog_link"] = "/catalog";
+        $arrayResponse["lk_link"] = "/lk";
+        return $arrayResponse;
+    }
+
+    /**
+     * @Route("/admin")
+     */
+    public function adminAction()
+    {
+        return new Response('<html><body>Admin page!</body></html>');
     }
 }
