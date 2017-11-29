@@ -1,0 +1,86 @@
+{% extends 'layout.html.twig' %}
+{% block title %}Contact{% endblock%}
+{% block jsScripts %}
+    <script src="{{ asset('js/jquery-3.2.1.min.js')}}"></script>
+    <script src="{{ asset('js/createNewField.js')}}"></script>
+{% endblock%}
+
+{% block stylesheetsInclude %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/screenAddRecord.css') }}" />
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1>Add new record</h1>
+    </header>
+
+
+    {{ form_start(form, { 'action': path('create_product'), 'method': 'POST', 'attr': {'class': 'create-product'} }) }}
+    {{ form_errors(form) }}
+
+    {#{{ form_row(form.photos) }}#}
+    {#{{ form_row(form.name) }}#}
+    {#{{ form_row(form.addressList) }}#}
+    {#{{ form_row(form.description) }}#}
+    {#{{ form_row(form.shortDescription) }}#}
+    {#{{ form_row(form.characteristics) }}#}
+    {{ form_row(form._token) }}
+    <ul id="email-fields-list"
+        data-prototype="{{ form_widget(form.characteristics.vars.prototype)|e }}">
+        {% for characteristicField in form.characteristics%}
+            <li>
+                {{ form_errors(characteristicField) }}
+                {{ form_widget(characteristicField) }}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="#" id="add-another-email">Add another link</a>
+    <ul id="photo-fields-list"
+        data-prototype="{{ form_widget(form.photos.vars.prototype)|e }}">
+        {% for photo in form.photos %}
+            <li>
+                {{ form_errors(photo) }}
+                {{ form_widget(photo) }}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="#" id="add-photo">Add photo</a>
+
+    {#{{ form_rest(form) }}#}
+
+    <input type="submit" value="Submit" />
+
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+    // keep track of how many email fields have been rendered
+    var characteristicsCount = '{{ form.characteristics|length }}';
+    var photosCount = '{{ form.photos|length }}';
+    listenForCreateField(characteristicsCount, "#add-another-email", "#email-fields-list");
+    listenForCreateField(photosCount, "#add-photo", "#photo-fields-list");
+
+    /*$(document).ready(function() {
+        jQuery('#add-another-email').click(function(e) {
+            e.preventDefault();
+
+            var emailList = jQuery('#email-fields-list');
+
+            // grab the prototype template
+            var newWidget = emailList.attr('data-prototype');
+            // replace the "__name__" used in the id and name of the prototype
+            // with a number that's unique to your emails
+            // end name attribute looks like name="contact[emails][2]"
+            newWidget = newWidget.replace(/__name__/g, emailCount);
+            emailCount++;
+
+            // create a new list element and add it to the list
+            var newLi = jQuery('<li></li>').html(newWidget);
+            newLi.appendTo(emailList);
+        });
+    })*/
+</script>
+{% endblock %}

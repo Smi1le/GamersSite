@@ -3,6 +3,9 @@ namespace Acme\StoreBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
+
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @MongoDB\Document(repositoryClass="Acme\StoreBundle\Repository\ProductRepository")
  */
@@ -19,29 +22,33 @@ class Product
     protected $name;
 
     /**
-     * @MongoDB\Field(type="float")
+     * @MongoDB\Field(type="array")
      */
-    protected $price;
-
-    /**
-     * @MongoDB\Field(type="float")
-     */
-    protected $power;
+    private $characteristics;
 
     /**
      * @MongoDB\Field(type="string")
      */
-    protected $equipment;
+    private $description;
+
+    /**
+     * @MongoDB\Field(type="array")
+     */
+    private $addressList;
+
+    /**
+     * @MongoDB\Field(type="array")
+     */
+    private $listPhotos;
 
     /**
      * @MongoDB\Field(type="string")
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     *     )
      */
-    protected $scale;
-
-    /**
-     * @MongoDB\Field(type="float")
-     */
-    protected $kindOfChassis;
+    private $shortDescription;
 
     /**
      * Get id
@@ -76,123 +83,112 @@ class Product
     }
 
     /**
-     * Set price
+     * Set characteristics
      *
-     * @param float $price
+     * @param array $characteristics
      * @return $this
      */
-    public function setPrice($price)
+    public function setCharacteristics(array $characteristics)
     {
-        $this->price = $price;
+        $this->characteristics = $characteristics;
         return $this;
     }
 
     /**
-     * Get price
+     * Get characteristics
      *
-     * @return float $price
+     * @return array $characteristics
      */
-    public function getPrice()
+    public function getCharacteristics()
     {
-        return $this->price;
+        return $this->characteristics;
     }
 
-    
     /**
-     * Set power
+     * Set description
      *
-     * @param string $power
+     * @param string $description
      * @return $this
      */
-    public function setPower($power)
+    public function setDescription($description)
     {
-        $this->power = $power;
+        $this->description = $description;
         return $this;
     }
 
     /**
-     * Get power
+     * Get description
      *
-     * @return string $power
+     * @return string $description
      */
-    public function getPower()
+    public function getDescription()
     {
-        return $this->power;
+        return $this->description;
     }
 
     /**
-     * Set equipment
+     * Set addressList
      *
-     * @param string $equipment
+     * @param array $addressList
      * @return $this
      */
-    public function setEquipment($equipment)
+    public function setAddressList(array $addressList)
     {
-        $this->equipment = $equipment;
+        $this->addressList = $addressList;
         return $this;
     }
 
     /**
-     * Get equipment
+     * Get addressList
      *
-     * @return string $equipment
+     * @return array $addressList
      */
-    public function getEquipment()
+    public function getAddressList()
     {
-        return $this->equipment;
+        return $this->addressList;
     }
 
     /**
-     * Set scale
+     * Set listPhotos
      *
-     * @param string $scale
+     * @param array $listPhotos
      * @return $this
      */
-    public function setScale($scale)
+    public function setListPhotos(array $listPhotos)
     {
-        $this->scale = $scale;
+        $this->listPhotos = $listPhotos;
         return $this;
     }
 
     /**
-     * Get scale
+     * Get listPhotos
      *
-     * @return string $scale
+     * @return array $listPhotos
      */
-    public function getScale()
+    public function getListPhotos()
     {
-        return $this->scale;
+        return $this->listPhotos;
     }
 
     /**
-     * Set kindOfChassis
+     * Set shortDescription
      *
-     * @param float $kindOfChassis
+     * @param string $shortDescription
      * @return $this
      */
-    public function setKindOfChassis($kindOfChassis)
+    public function setShortDescription($shortDescription)
     {
-        $this->kindOfChassis = $kindOfChassis;
+        $this->shortDescription = $shortDescription;
         return $this;
     }
 
     /**
-     * Get kindOfChassis
+     * Get shortDescription
      *
-     * @return float $kindOfChassis
+     * @return string $shortDescription
      */
-    public function getKindOfChassis()
+    public function getShortDescription()
     {
-        return $this->kindOfChassis;
-    }
-
-    public function toString() 
-    {
-        return strval($this->price) . ", ". 
-            $this->name . ", ".
-            $this->power . ", ".
-            $this->equipment . ", ".
-            $this->scale . ", ".
-            strval($this->kindOfChassis) . ", ";
+        return $this->shortDescription;
     }
 }
