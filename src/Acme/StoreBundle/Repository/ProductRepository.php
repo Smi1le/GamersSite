@@ -22,4 +22,11 @@ class ProductRepository extends DocumentRepository
 	public function save($product) {
 		
 	}
+
+	public function findSortedByDate() {
+        return $this->createQueryBuilder()
+            ->sort("date", "ASC")
+            ->getQuery()
+            ->execute();
+    }
 }

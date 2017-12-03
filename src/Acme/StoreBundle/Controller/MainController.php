@@ -19,29 +19,7 @@ class MainController extends DefaultController
     public function indexAction(Request $request)
     {
         return $this->render('AcmeStoreBundle:Default:index.html.twig', array("popular_title" => "Самое популярное",
-            "content_list" => array(0 => array("photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-                "caption" => "caption",
-                "description" => "description",
-                "characteristics" => array(
-                    array("name" => "first", "value" => "Bl9tb"),
-                    array("name" => "second", "value" => "Bl9tb")
-                )),
-                1 => array("photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-                    "caption" => "caption",
-                    "description" => "description",
-                    "characteristics" => array(
-                        array("name" => "first", "value" => "Bl9tb"),
-                        array("name" => "second", "value" => "Bl9tb"),
-                        array("name" => "second", "value" => "Bl9tb"),
-                        array("name" => "second", "value" => "Bl9tb")
-                    )),
-                2 => array("photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-                    "caption" => "caption",
-                    "description" => "description",
-                    "characteristics" => array(
-                        array("name" => "first", "value" => "Bl9tb"),
-                        array("name" => "second", "value" => "Bl9tb")
-                    ))),
+            "content_list" => $this->getProductList(),
             "popular_list" => array(
                 array(
                     "name" => "first",
@@ -69,8 +47,35 @@ class MainController extends DefaultController
 
     }
 
-    private function getProducts() {
-//        $this->getRepository()->getRepository("AcmeStoreBundle:Product")->;
+    private function getProductList() {
+        $products = $this->getProducts();
+        $newList = array();
+        foreach ($products as $element) {
+            $product = array(
+                'caption' => $element->getName(),
+                'description' => $element->getShortDescription(),
+                'characteristics' => $this->getCharacteristics($element->getCharacteristics()),
+                'photo_path' => $element->getPhotos()//TODO: обработать по нормальному
+            );
+            array_push($newList, $product);
+        }
+        return $newList;
+    }
+
+    /**
+     * @param array $characteristics
+     * @return array $newList
+     */
+    private function getCharacteristics($characteristics) {
+        $newList = array();
+        for ($i = 0; $i < count($characteristics); $i++) {
+            $characteristic = array(
+                'name' => $characteristics[$i][0],
+                'value' => $characteristics[$i][1],
+            );
+            array_push($newList, $characteristic);
+        }
+        return $newList;
     }
 //    /**
 //     * @Route("/", name="default_show")

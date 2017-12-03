@@ -54,4 +54,12 @@ class DefaultController extends Controller
     {
         return new Response('<html><body>Admin page!</body></html>');
     }
+
+    protected function getProducts() {
+        return $this
+            ->get('doctrine_mongodb')
+            ->getManager()
+            ->getRepository('AcmeStoreBundle:Product')
+            ->findSortedByDate();
+    }
 }

@@ -67,7 +67,7 @@ class CatalogController extends DefaultController
                 )
             )
         );
-        $arr = $this->addHeaderLink($arr);
+//        $arr = $this->addHeaderLink($arr);
 
         // print_r($arr);
         return $this->render('AcmeStoreBundle:Default:catalog.html.twig', $arr);
