@@ -68,6 +68,10 @@ class MainController extends DefaultController
 
 
     }
+
+    private function getProducts() {
+//        $this->getRepository()->getRepository("AcmeStoreBundle:Product")->;
+    }
 //    /**
 //     * @Route("/", name="default_show")
 //     */

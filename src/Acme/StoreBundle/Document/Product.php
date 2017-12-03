@@ -32,6 +32,11 @@ class Product
     private $characteristics;
 
     /**
+     * @MongoDB\Field(type="date")
+     */
+    private $date;
+
+    /**
      * @MongoDB\Field(type="string")
      */
     private $description;
@@ -216,5 +221,27 @@ class Product
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \MongoDate $date
+     * @return $this
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \MongoDate $date
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }
