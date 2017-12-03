@@ -28,26 +28,76 @@
     {#{{ form_row(form.shortDescription) }}#}
     {#{{ form_row(form.characteristics) }}#}
     {{ form_row(form._token) }}
-    <ul id="email-fields-list"
-        data-prototype="{{ form_widget(form.characteristics.vars.prototype)|e }}">
-        {% for characteristicField in form.characteristics%}
-            <li>
-                {{ form_errors(characteristicField) }}
-                {{ form_widget(characteristicField) }}
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="#" id="add-another-email">Add another link</a>
-    <ul id="photo-fields-list"
-        data-prototype="{{ form_widget(form.photos.vars.prototype)|e }}">
-        {% for photo in form.photos %}
-            <li>
-                {{ form_errors(photo) }}
-                {{ form_widget(photo) }}
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="#" id="add-photo">Add photo</a>
+    {#<ul id="email-fields-list"#}
+        {#data-prototype="{{ form_widget(form.characteristics.vars.prototype)|e }}">#}
+        {#{% for characteristicField in form.characteristics%}#}
+            {#<li>#}
+                {#{{ form_errors(characteristicField) }}#}
+                {#{{ form_widget(characteristicField) }}#}
+            {#</li>#}
+        {#{% endfor %}#}
+    {#</ul>#}
+
+    <div class="field-container">
+        {{ form_row(form.name, {'div': {'attr': {'class': 'field-container'}}}) }}
+    </div>
+    <div class="field-container">
+        {{ form_row(form.description) }}
+    </div>
+    <div class="field-container">
+        {{ form_row(form.shortDescription) }}
+    </div>
+    <div class="field-container">
+        {{ form_row(form.category) }}
+    </div>
+    <div class="field-container">
+        {{ form_label(form.characteristics) }}
+        <a href="#" id="add-another-characteristic">Добавить</a>
+
+        <ul id="characteristic-fields-list"
+            data-prototype="{{ form_widget(form.characteristics.vars.prototype)|e }}">
+            <div class="label-name">
+                <h1>Название</h1>
+            </div>
+            <div class="label-value">
+                <h1>Значение</h1>
+            </div>
+            {% for characteristicField in form.characteristics%}
+                <div>
+                    {{ form_errors(characteristicField) }}
+                    {{ form_widget(characteristicField) }}
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="field-container">
+        {{ form_label(form.photos) }}
+        <a href="#" id="add-photo">Добавить</a>
+        <ul id="photo-fields-list"
+            data-prototype="{{ form_widget(form.photos.vars.prototype)|e }}">
+            {% for photo in form.photos %}
+                <div>
+                    {{ form_errors(photo) }}
+                    {{ form_widget(photo) }}
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="field-container">
+        {{ form_label(form.addressList) }}
+        <a href="#" id="add-link">Добавить</a>
+        <ul id="link-fields-list"
+            data-prototype="{{ form_widget(form.addressList.vars.prototype)|e }}">
+            {% for link in form.addressList %}
+                <div>
+                    {{ form_errors(link) }}
+                    {{ form_widget(link) }}
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
 
     {#{{ form_rest(form) }}#}
 
@@ -60,27 +110,9 @@
     // keep track of how many email fields have been rendered
     var characteristicsCount = '{{ form.characteristics|length }}';
     var photosCount = '{{ form.photos|length }}';
-    listenForCreateField(characteristicsCount, "#add-another-email", "#email-fields-list");
+    var addressCount = '{{ form.addressList|length }}';
+    listenForCreateField(characteristicsCount, "#add-another-characteristic", "#characteristic-fields-list");
     listenForCreateField(photosCount, "#add-photo", "#photo-fields-list");
-
-    /*$(document).ready(function() {
-        jQuery('#add-another-email').click(function(e) {
-            e.preventDefault();
-
-            var emailList = jQuery('#email-fields-list');
-
-            // grab the prototype template
-            var newWidget = emailList.attr('data-prototype');
-            // replace the "__name__" used in the id and name of the prototype
-            // with a number that's unique to your emails
-            // end name attribute looks like name="contact[emails][2]"
-            newWidget = newWidget.replace(/__name__/g, emailCount);
-            emailCount++;
-
-            // create a new list element and add it to the list
-            var newLi = jQuery('<li></li>').html(newWidget);
-            newLi.appendTo(emailList);
-        });
-    })*/
+    listenForCreateField(addressCount, "#add-link", "#link-fields-list");
 </script>
 {% endblock %}

@@ -22,7 +22,12 @@ class Product
     protected $name;
 
     /**
-     * @MongoDB\Field(type="array")
+     * @MongoDB\Field(type="string")
+     */
+    protected $category;
+
+    /**
+     * @MongoDB\Field(type="collection")
      */
     private $characteristics;
 
@@ -32,14 +37,15 @@ class Product
     private $description;
 
     /**
-     * @MongoDB\Field(type="array")
+     * @MongoDB\Field(type="collection")
+     *
      */
     private $addressList;
 
     /**
-     * @MongoDB\Field(type="array")
+     * @MongoDB\Field(type="collection")
      */
-    private $listPhotos;
+    private $photos;
 
     /**
      * @MongoDB\Field(type="string")
@@ -151,23 +157,21 @@ class Product
     /**
      * Set listPhotos
      *
-     * @param array $listPhotos
+     * @param collection $listPhotos
      * @return $this
      */
-    public function setListPhotos(array $listPhotos)
+    public function setPhotos($listPhotos)
     {
-        $this->listPhotos = $listPhotos;
+        $this->photos = $listPhotos;
         return $this;
     }
 
     /**
      * Get listPhotos
-     *
-     * @return array $listPhotos
      */
-    public function getListPhotos()
+    public function getPhotos()
     {
-        return $this->listPhotos;
+        return $this->photos;
     }
 
     /**

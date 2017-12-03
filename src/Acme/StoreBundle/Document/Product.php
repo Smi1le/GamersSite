@@ -18,9 +18,13 @@ class Product
 
     /**
      * @MongoDB\Field(type="string")
-
      */
-//    protected $name;
+    protected $name;
+
+    /**
+     * @MongoDB\Field(type="string")
+     */
+    protected $category;
 
     /**
      * @MongoDB\Field(type="collection")
@@ -30,13 +34,13 @@ class Product
     /**
      * @MongoDB\Field(type="string")
      */
-//    private $description;
+    private $description;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @MongoDB\Field(type="collection")
      *
      */
-//    private $addressList;
+    private $addressList;
 
     /**
      * @MongoDB\Field(type="collection")
@@ -190,5 +194,27 @@ class Product
     public function getShortDescription()
     {
         return $this->shortDescription;
+    }
+
+    /**
+     * Set category
+     *
+     * @param string $category
+     * @return $this
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return string $category
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }
