@@ -6,12 +6,14 @@
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/creatingSearchQuery.js"></script>
+    {% block jsScripts %}
+    {% endblock %}
     {% block stylesheets %}
         <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset('css/screen.css') }}" />
     {% block stylesheetsInclude %}{% endblock %}
-    {% endblock %}
-    {% block jsScripts %}
     {% endblock %}
 </head>
 <body>
@@ -37,7 +39,10 @@
                         <li><a class="orange" href="{{ path('AcmeStoreBundle_login') }}"></a></li>
                     </ul>
                 </div>
-                <input class="search" type="text" placeholder="Search"/>
+                <div class="search" id="search">
+                    <input type="submit" id="search-button" value=""/>
+                    <input class="search-input" id="search-input" type="text" placeholder="Search" href="/catalog"/>
+                </div>
             </div>
         </div>
     </header>
@@ -47,5 +52,6 @@
 
 {% endblock %}
 
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+{% endblock %}
 </body>

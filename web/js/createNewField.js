@@ -13,6 +13,9 @@ function listenForCreateField(counter, buttonId, fieldListId) {
             if (buttonId === "#add-another-characteristic") {
                 count = 2;
             }
+            if (buttonId === "#add-photo" && counter === 1) {
+                return;
+            }
             var block = jQuery('<div></div>');
             for (var i = 0; i < count; i++) {
                 e.preventDefault();

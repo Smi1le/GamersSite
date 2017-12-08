@@ -1,7 +1,25 @@
-{% include "base/head.html.twig" %}
+{#{% include "base/head.html.twig" %}
 <body>
 	{% include "base/header.html.twig" %}
     {% include "catalog_content.html.twig" %}
     {% include "base/footer.html.twig" %}
 </body> 
-</html>
+</html>#}
+{% block title %}{{catalog_title}}{% endblock %}
+
+{% extends 'layout.html.twig' %}
+{% block body %}
+    <div class="main-container">
+        <div class="content">
+            <div class="popular-title">
+                <div class="badge"></div>
+                <p>{{catalog_title}}</p>
+            </div>
+            <div class="elements-container">
+                {% for element in catalog_list %}
+                    {% include "car_element.html.twig" %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

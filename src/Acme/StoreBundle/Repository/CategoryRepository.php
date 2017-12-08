@@ -13,9 +13,9 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 
 class CategoryRepository extends DocumentRepository
 {
-    public function findAll() {
+    public function findSortedByName() {
         return $this->createQueryBuilder()
-            ->sort("name", "ASC")
+            ->sort("_id", "ASC")
             ->getQuery()
             ->execute();
     }

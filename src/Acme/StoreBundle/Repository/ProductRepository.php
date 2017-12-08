@@ -13,20 +13,38 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 class ProductRepository extends DocumentRepository
 {
 	public function findAll() {
-		return $this->createQueryBuilder()
+		return $this
+            ->createQueryBuilder()
 			->sort("name", "ASC")
 			->getQuery()
 			->execute();	
 	}
 
-	public function save($product) {
-		
-	}
-
 	public function findSortedByDate() {
-        return $this->createQueryBuilder()
-            ->sort("date", "ASC")
+        return $this
+            ->createQueryBuilder()
+            ->sort("date", "DESC")
             ->getQuery()
             ->execute();
     }
+
+    public function getByCategory($category) {
+        echo $category;
+        return $this
+            ->createQueryBuilder()
+            ->field('category')->where($category)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getByEntry($namePart) {
+	    $func = "function() { return (/" . $namePart. "/).test(this.name)}";
+	    return $this
+            ->createQueryBuilder()
+            ->where($func)
+            ->getQuery()
+            ->execute();
+    }
+
+
 }

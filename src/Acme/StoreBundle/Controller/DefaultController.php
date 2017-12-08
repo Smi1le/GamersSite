@@ -62,4 +62,12 @@ class DefaultController extends Controller
             ->getRepository('AcmeStoreBundle:Product')
             ->findSortedByDate();
     }
+
+    protected function getCategories() {
+        return $this
+            ->get('doctrine_mongodb')
+            ->getManager()
+            ->getRepository('AcmeStoreBundle:Category')
+            ->findSortedByName();
+    }
 }

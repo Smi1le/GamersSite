@@ -55,7 +55,7 @@ class MainController extends DefaultController
                 'caption' => $element->getName(),
                 'description' => $element->getShortDescription(),
                 'characteristics' => $this->getCharacteristics($element->getCharacteristics()),
-                'photo_path' => $element->getPhotos()//TODO: обработать по нормальному
+                'photo_path' => 'http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg'
             );
             array_push($newList, $product);
         }
@@ -68,10 +68,10 @@ class MainController extends DefaultController
      */
     private function getCharacteristics($characteristics) {
         $newList = array();
-        for ($i = 0; $i < count($characteristics); $i++) {
+        for ($i = 0; $i < count($characteristics); $i += 2) {
             $characteristic = array(
-                'name' => $characteristics[$i][0],
-                'value' => $characteristics[$i][1],
+                'name' => $characteristics[$i],
+                'value' => $characteristics[$i + 1],
             );
             array_push($newList, $characteristic);
         }

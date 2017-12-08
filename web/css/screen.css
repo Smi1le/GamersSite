@@ -21,6 +21,7 @@ body { line-height: 1;font-family: Arial, Helvetica, sans-serif;font-size: 12px;
 
 .main-col { width: 841px; display: inline-block; float: right; margin-bottom: 20px; }
 .sidebar { width: 239px; padding: 10px; display: inline-block; }
+.sidebar a { display: block; }
 
 .main-col a { color: #F48A00; }
 .main-col h1,

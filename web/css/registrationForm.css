@@ -1,5 +1,5 @@
 .blogger-notice { text-align: center; padding: 10px; background: #DFF2BF; border: 1px solid; color: #4F8A10; margin-bottom: 10px; }
-form.registration { font-size: 16px; }
+form.registration { font-size: 16px; margin-left: 10%;}
 form.registration div { clear: left; margin-bottom: 10px; }
 form.registration label { float: left; margin-right: 10px; text-align: right; width: 100px; font-weight: bold; vertical-align: top; padding-top: 10px; }
 form.registration input[type="text"],

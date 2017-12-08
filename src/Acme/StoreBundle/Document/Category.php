@@ -1,17 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Тима
- * Date: 03.12.2017
- * Time: 19:26
- */
-
 namespace Acme\StoreBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * @MongoDB\Document
+ * @MongoDB\Document(repositoryClass="Acme\StoreBundle\Repository\CategoryRepository", collection="Category1")
  */
 class Category
 {
@@ -21,9 +14,15 @@ class Category
     private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @MongoDB\Field(type="string", name="name_ru")
      */
-    private $name;
+    private $nameRu;
+
+    /**
+     * @MongoDB\Field(type="string", name="name_en")
+     */
+    private $nameEn;
+
 
 
     /**
@@ -36,29 +35,47 @@ class Category
         return $this->id;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return $this
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string $name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
     public function toString() {
-        return $this->id. ';'.$this->name;
+        return $this->id. ';'.$this->nameRu;
+    }
+
+    /**
+     * Set nameRu
+     *
+     * @param string $nameRu
+     */
+    public function setNameRu($nameRu)
+    {
+        $this->nameRu = $nameRu;
+    }
+
+    /**
+     * Get nameRu
+     *
+     * @return string $nameRu
+     */
+    public function getNameRu()
+    {
+        return $this->nameRu;
+    }
+
+    /**
+     * Set nameEn
+     *
+     * @param string $nameEn
+     */
+    public function setNameEn($nameEn)
+    {
+        $this->nameEn = $nameEn;
+    }
+
+    /**
+     * Get nameEn
+     *
+     * @return string $nameEn
+     */
+    public function getNameEn()
+    {
+        return $this->nameEn;
     }
 }
