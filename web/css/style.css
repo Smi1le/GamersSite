@@ -4,15 +4,9 @@ body {
     margin: 0px;
 }
 
-.header-container {
-    background-color: #e2f6ff;
-    width: 100%;
-    height: 50px;
-    position: absolute;
-    overflow: hidden;
-}
-
 .header-box {
+    background-color: #00d3c9;
+    height: 50px;
     white-space: nowrap;
 }
 
@@ -124,19 +118,28 @@ header {
 }
 
 .sidebar {
-    width: 20%;
+    /*width: 20%;*/
     background-color: #9ce1ef;
     height: 700px;
-    position: absolute;
+    /*position: absolute;*/
+}
+
+.sidebar a {
+    font-size: 18px;
 }
 
 .content {
-    float: right;
-    position: relative;
+    /* float: right; */
+    /* position: relative; */
     background-color: #b1e4ee;
-    height: 100%;
+    /* height: 100%; */
     min-height: 600px;
-    min-width: 841px;
+    /* min-width: 100%; */
+}
+
+.content .popular-title {
+    padding-top: 15px;
+    padding-left: 15px;
 }
 
 .sidebar-element {
@@ -200,13 +203,14 @@ header {
 }
 
 .popular-element {
-    width: 140px;
-    padding: 0px 0px 0px 50px;
-    display: inline-block;
+    /* width: 140px; */
+    /* padding: 0px 0px 0px 50px; */
+    /* display: inline-block; */
 }
 
 .popular-element img {
     width: 100%;
+    max-height: 100px;
 }
 
 .badge {
@@ -253,27 +257,39 @@ header {
 }
 
 .header-lk-not-enter {
-    width: 73%;
-    margin-left: 16%;
+    /* width: 73%; */
+    /* margin-left: 16%; */
+}
+
+.aqua {
+    background-color: aqua;
+}
+
+.green {
+    background-color: green;
+}
+
+.hidden_div {
+    display: none;
 }
 
 .header-lk-not-enter p {
     font-size: 25px;
     cursor: default;
-    margin-left: 56px;
+    margin-left: 25px;
     margin-top: 10px;
 }
 
 .lk-not-enter-content {
-    width: 80%;
-    margin-left: 10%;
+    /*width: 80%; */
+    /* margin-left: 10%; */
     background-color: blue;
-    height: 400px;
+    /* height: 400px; */
 }
 
 .lk-not-enter-content .con {
-    width: 80%;
-    margin-left: 10%;
+    /*(width: 80%; */
+    /* margin-left: 10%; */
 }
 
 .login-form {
@@ -304,12 +320,14 @@ header {
 }
 
 .registration_button {
-    width: 48%;
     background-color: azure;
     height: 30px;
-    margin-top: 5px;
-    margin-right: 4%;
-    display: inline-block;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.login-field {
+    padding-top: 20px;
 }
 
 .to-right-side {
@@ -317,11 +335,52 @@ header {
 }
 
 .search-input {
-    float: right;
+    /*float: right;*/
     /* margin: 10px 3% 0px 0px; */
     border-radius: 12px;
     background-color: #97edff;
     height: 30px;
     width: 85%;
     border: 0px;
+}
+
+.product-image {
+    height: 300px;
+    width: 300px;
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.product-image img {
+    width: 300px;
+    padding-top: 20%;
+}
+
+.product-name {
+    display: inline-block;
+    margin-left: 9px;
+    /* margin-top: 22px; */
+}
+
+.product-name-section{
+    padding-left: 20px;
+}
+
+.product-name-section .characteristic-field {
+    display: block;
+    margin-right: 0px;
+}
+
+.product-name-section p {
+    font-size: 16px;
+    margin-left: 18px;
+    line-height: 1;
+}
+
+.product-footer {
+    margin-left: 15px;
+}
+
+.main-col h1 {
+    font-size: 30px;
 }

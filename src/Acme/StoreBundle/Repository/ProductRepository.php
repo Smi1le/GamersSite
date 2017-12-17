@@ -29,10 +29,9 @@ class ProductRepository extends DocumentRepository
     }
 
     public function getByCategory($category) {
-        echo $category;
         return $this
             ->createQueryBuilder()
-            ->field('category')->where($category)
+            ->field('category')->equals($category)
             ->getQuery()
             ->execute();
     }
@@ -44,6 +43,15 @@ class ProductRepository extends DocumentRepository
             ->where($func)
             ->getQuery()
             ->execute();
+    }
+
+    public function findById($id) {
+	    return iterator_to_array($this
+            ->createQueryBuilder()
+            ->field("_id")
+            ->equals($id)
+            ->getQuery()
+            ->execute());
     }
 
 

@@ -118,12 +118,14 @@ class PersonalAreaController extends DefaultController
         $enquiry = new User();
 
         $form = $this->createForm(RegistrationType::class, $enquiry);
+        $form1 = $this->createForm(LoginType::class, $enquiry);
 
 
         if ($request->isMethod($request::METHOD_POST)) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+
                 $enquiry->setPassword($enquiry->getPlainPassword());
 
                 $this->save($enquiry);
@@ -132,15 +134,16 @@ class PersonalAreaController extends DefaultController
             }
         }
 
-        $arr = array('form' => $form->createView(), 'title_name' => "Registration",
+        $arr = array('form_reg' => $form->createView(), 'form_auth' => $form1->createView(), 'title_name' => "Registration",
             "Placeholder_search" => "Поиск",
             "autorization_title" => "Авторизация",
             "registration_title" => "Регистрация",
             "entering_button" => "Войти",
             "error_message" => "",
+            "registration" => true,
             "forgotten_password" => "Забыли пароль");
         $arr = $this->addHeaderLink($arr);
-        return $this->render('AcmeStoreBundle:Default:registration_page.html.twig', $arr);
+        return $this->render('AcmeStoreBundle:Default:autorization_page.html.twig', $arr);
     }
 
 
@@ -154,7 +157,7 @@ class PersonalAreaController extends DefaultController
         $enquiry = new User();
 
         $form = $this->createForm(LoginType::class, $enquiry);
-
+        $form1 = $this->createForm(RegistrationType::class, $enquiry);
 
         if ($request->isMethod($request::METHOD_POST)) {
             $form->handleRequest($request);
@@ -182,12 +185,13 @@ class PersonalAreaController extends DefaultController
             }
         }
 
-        $arr = array('form' => $form->createView(), 'title_name' => "Login",
+        $arr = array('form_auth' => $form->createView(), 'form_reg' => $form1->createView(), 'title_name' => "Login",
             "Placeholder_search" => "Поиск",
             "autorization_title" => "Авторизация",
             "registration_title" => "Регистрация",
             "entering_button" => "Войти",
             "error_message" => "",
+            "registration" => false,
             "forgotten_password" => "Забыли пароль");
         $arr = $this->addHeaderLink($arr);
         return $this->render('AcmeStoreBundle:Default:autorization_page.html.twig', $arr);

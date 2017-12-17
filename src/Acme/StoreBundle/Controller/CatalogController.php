@@ -22,56 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CatalogController extends DefaultController
 {
-
-
-//    public function catalog() {
-//        $arr = array(
-//            "title_name" => "My New Page",
-//            "Placeholder_search" => "Поиск",
-//            "boot_template" => "main_content.html.twig",
-//            "catalog_title" => "Каталог",
-//            "last_added_title" => "Последние добавления",
-//            "margin_top_footer" => "2000px",
-//            "sidebar_elements" => array(array("page_link" => "https://vk.com/na_fokse", "name" => "You Father")),
-//            "catalog_list" => array(
-//                array(
-//                    "name" => "first",
-//                    "photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-//                    "page_link" => "https://vk.com/na_fokse"
-//                ),
-//                array(
-//                    "name" => "second",
-//                    "photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-//                    "page_link" => "https://vk.com/na_fokse"
-//                ),
-//                array(
-//                    "name" => "third",
-//                    "photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-//                    "page_link" => "https://vk.com/na_fokse"
-//                ),
-//                array(
-//                    "name" => "fourth",
-//                    "photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-//                    "page_link" => "https://vk.com/na_fokse"
-//                ),
-//                array(
-//                    "name" => "fifth",
-//                    "photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-//                    "page_link" => "https://vk.com/na_fokse"
-//                ),
-//                array(
-//                    "name" => "sixth",
-//                    "photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-//                    "page_link" => "https://vk.com/na_fokse"
-//                )
-//            )
-//        );
-////        $arr = $this->addHeaderLink($arr);
-//
-//        // print_r($arr);
-//        return $this->render('AcmeStoreBundle:Default:catalog.html.twig', $arr);
-//    }
-
     /**
      * @Method({"GET"})
      * @Route("/catalog", name="catalog_show")
@@ -84,8 +34,7 @@ class CatalogController extends DefaultController
         if ($request->isMethod($request::METHOD_GET)) {
             $parameter = $request->query->get("s");
         }
-        echo $parameter . '<br/>';
-        if ($parameter === "") {
+        if ($parameter == "") {
             return $this->render('AcmeStoreBundle:Default:catalog.html.twig', array(
                 "catalog_title" => "Каталог",
                 'catalog_list' => $this->getProductList(null),
@@ -109,9 +58,6 @@ class CatalogController extends DefaultController
      */
     public function showCatalogForCategory($category) {
         $nameCategory = ucfirst(str_replace('_', ' ', $category));
-        echo $nameCategory;
-        echo "333333333333333".'<br/>';
-        // print_r($arr);
         return $this->render('AcmeStoreBundle:Default:catalog.html.twig', array(
             "catalog_title" => "Каталог",
             'catalog_list' => $this->getProductList($this->getByCategory($nameCategory)),
@@ -119,54 +65,18 @@ class CatalogController extends DefaultController
         ));
     }
 
-    /**
-     * @Method({"GET", "POST"})
-     * @Route("/catalog?s={category}", name="catalog_show_for_name_part")
-     * @param string $namePart
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function showCatalogForNamePart($namePart) {
-//        $nameCategory = ucfirst(str_replace('_', ' ', $category));
-        echo "11111111122222222".'<br/>';
-
-        // print_r($arr);
-        return $this->render('AcmeStoreBundle:Default:catalog.html.twig', array(
-            "catalog_title" => "Каталог",
-            'catalog_list' => $this->getProductList($this->getByEntry($namePart)),
-            'categories' => $this->getListCategories()
-        ));
-    }
-
-    private function getListCategories() {
-        $categories = $this->getCategories();
-//        print_r(count($categories));
-        $newList = array();
-        foreach ($categories as $category) {
-//            print_r($category);
-            echo "<br/>";
-
-            $newCategory = array(
-                'name' => $category->getNameRu(),
-                'href' => '/catalog/' . strtolower(str_replace(' ', '_', $category->getNameEn()))
-            );
-            array_push($newList, $newCategory);
-        }
-        return $newList;
-    }
-
     private function getProductList($products) {
-//        print_r($products);
         if ($products === null) {
             $products = $this->getProducts();
-            echo '111111<br/>';
         }
+
         $newList = array();
         foreach ($products as $element) {
-            print_r($element);
+            $photo = count($element->getPhotos()) === 0 ? "" : $element->getPhotos()[0];
             $product = array(
                 'name' => $element->getName(),
-                'page_link' => $element->getId(),
-                'photo_path' => 'http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg'
+                'page_link' => '/product/' . $element->getId(),
+                'photo_path' => '/' . $photo
             );
             array_push($newList, $product);
         }

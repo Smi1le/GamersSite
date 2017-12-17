@@ -8,41 +8,35 @@
     <![endif]-->
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/creatingSearchQuery.js"></script>
+    <script src="js/tether.min.js"></script>
+    <script src="js/bootstrap.js"></script>
     {% block jsScripts %}
     {% endblock %}
     {% block stylesheets %}
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset('css/screen.css') }}" />
-    {% block stylesheetsInclude %}{% endblock %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />
+        {% block stylesheetsInclude %}{% endblock %}
     {% endblock %}
 </head>
 <body>
 
 <section id="header-wrapper">
     <header id="header">
-        <div class="header-container">
-            <div class="header-box">
+        <div class="header-box">
+            <div class="col-md-offset-1 col-md-2">
                 <div class="logo"> </div>
-                <div class="control-buttons-container">
-                    {#<div class="button-home-page button-control-panel cursor-pointer">
-                        <a href="{{ path('default_show') }}"></a>
-                    </div>#}
-                    <ul class="navigation">
-                        <li><a class="blue" href="{{ path('default_show') }}"></a></li>
-                        {#<div class="button-catalog-page button-control-panel cursor-pointer">
-                            <a href="{{ path('default_show') }}"></a>
-                        </div>#}
-                        <li><a class="green" href="{{ path('catalog_show') }}"></a></li>
-                        {#<div class="button-lk-page button-control-panel cursor-pointer">
-                            <a href="{{ path('AcmeStoreBundle_personalArea') }}"></a>
-                        </div>#}
-                        <li><a class="orange" href="{{ path('AcmeStoreBundle_login') }}"></a></li>
-                    </ul>
-                </div>
-                <div class="search" id="search">
-                    <input type="submit" id="search-button" value=""/>
-                    <input class="search-input" id="search-input" type="text" placeholder="Search" href="/catalog"/>
-                </div>
+            </div>
+            <div class="control-buttons-container col-md-2">
+                <ul class="navigation">
+                    <li><a class="blue" href="{{ path('default_show') }}" data-toggle="tooltip" data-placement="top" title="Главная страница"></a></li>
+                    <li><a class="green" href="{{ path('catalog_show') }}" data-toggle="tooltip" data-placement="top" title="Каталог"></a></li>
+                    <li><a class="orange" href="{{ path('AcmeStoreBundle_login') }}" data-toggle="tooltip" data-placement="top" title="Личный кабинет"></a></li>
+                </ul>
+            </div>
+            <div class="search col-md-offset-3 col-md-2" id="search">
+                <input type="submit" id="search-button" value=""/>
+                <input class="search-input" id="search-input" type="text" placeholder="Search" href="/catalog"/>
             </div>
         </div>
     </header>

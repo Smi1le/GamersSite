@@ -1,12 +1,8 @@
 {% extends 'base/base.html.twig' %}
 {% block ies %}
-    <section id="wrapper">
-        <section class="main-col">
-            {% block body %}{% endblock %}
-        </section>
-
+    <section id="wrapper col-md-offset-1 col-md-3">
         {% block sidebar %}
-            <aside class="sidebar">
+            <aside class="sidebar col-md-offset-1 col-md-2">
                 {% for category in categories %}
                     <a href="{{ category.href }}">
                         <span>{{ category.name }}</span>
@@ -14,7 +10,9 @@
                 {% endfor %}
             </aside>
         {% endblock %}
-
+        <section class="main-col col-md-8">
+            {% block body %}{% endblock %}
+        </section>
         <div id="footer">
             {% block footer %}
                 Symfony2 blog tutorial - created by <a href="https://github.com/dsyph3r">dsyph3r</a>

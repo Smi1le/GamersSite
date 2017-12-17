@@ -70,4 +70,17 @@ class DefaultController extends Controller
             ->getRepository('AcmeStoreBundle:Category')
             ->findSortedByName();
     }
+
+    protected function getListCategories() {
+        $categories = $this->getCategories();
+        $newList = array();
+        foreach ($categories as $category) {
+            $newCategory = array(
+                'name' => $category->getNameRu(),
+                'href' => '/catalog/' . strtolower(str_replace(' ', '_', $category->getNameEn()))
+            );
+            array_push($newList, $newCategory);
+        }
+        return $newList;
+    }
 }
