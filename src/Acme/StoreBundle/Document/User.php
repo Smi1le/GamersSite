@@ -23,6 +23,11 @@ class User implements UserInterface, \Serializable
     /**
      * @MongoDB\Field(type="string")
      */
+    protected $authToken;
+
+    /**
+     * @MongoDB\Field(type="string")
+     */
     protected $email;
 
     /**
@@ -98,6 +103,28 @@ class User implements UserInterface, \Serializable
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set token
+     *
+     * @param string $token
+     * @return $this
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+        return $this;
+    }
+
+    /**
+     * Get token
+     *
+     * @return string $token
+     */
+    public function getToken()
+    {
+        return $this->token;
     }
 
     /**

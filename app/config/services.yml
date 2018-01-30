@@ -35,6 +35,6 @@ services:
     #         $someArgument: 'some_value'
 
 
-    userAuthenticator:
-            class:     Acme\StoreBundle\Security\UserAuthenticator
-            arguments: ["@security.password_encoder"]
+#    userAuthenticator:
+#            class:     Acme\StoreBundle\Security\UserAuthenticator
+#            arguments: ["@security.password_encoder"]

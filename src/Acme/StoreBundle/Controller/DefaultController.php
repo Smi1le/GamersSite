@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    protected function getRepository() {
+    protected function getManager() {
         return $this
             ->get("doctrine_mongodb")
             ->getManager();
@@ -22,24 +22,6 @@ class DefaultController extends Controller
         $manager->flush();
     }
 
-    protected function update($id, $namespace) {
-        $manager = getRepository($namespace);
-        $product = $manager->getRepository("AcmeStoreBundle:Product")->find($id);
-
-		if (!$product){
-			throw $this->createNotFoundException('No product found for id '.$id);
-		}
-
-		$product = $object;
-		$dataStore->flush();
-    }
-
-    protected function delete($id, $namespace) {
-        $manager = $this->getRepository($namespace);
-        $manager->remove($product);
-        $manager->flush();
-    }
-
     protected function addHeaderLink($arrayResponse) {
         $arrayResponse["home_link"] = "/";
         $arrayResponse["catalog_link"] = "/catalog";
@@ -48,12 +30,10 @@ class DefaultController extends Controller
     }
 
 
-    protected function getUserById() {
-        if(session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        if (isset($_SESSION["user_id"])) {
-            $id = $_SESSION["user_id"];
+    protected function getUserByRequest(Request $request) {
+        print_r($_COOKIE);
+        if (isset($_COOKIE["UserId"])) {
+            $id = $_COOKIE["UserId"];
             $user = $this->get('doctrine_mongodb')
                 ->getManager()
                 ->getRepository("AcmeStoreBundle:User")
@@ -61,7 +41,9 @@ class DefaultController extends Controller
             return count($user) > 0 ? $user[0] : null;
         }
         return null;
+
     }
+
     /**
      * @Route("/admin")
      */

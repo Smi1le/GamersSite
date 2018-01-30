@@ -8,6 +8,7 @@
 namespace Acme\StoreBundle\Form;
 
 use Acme\StoreBundle\Document\IncomingUser;
+use Acme\StoreBundle\Document\User;
 use Doctrine\ODM\MongoDB\Types\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -30,7 +31,7 @@ class LoginType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => IncomingUser::class,
+            'data_class' => User::class,
         ));
 //        $resolver->setRequired(array('type'));
     }

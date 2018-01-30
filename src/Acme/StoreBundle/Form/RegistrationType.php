@@ -9,6 +9,7 @@
 namespace Acme\StoreBundle\Form;
 
 use Acme\StoreBundle\Document\IncomingUser;
+use Acme\StoreBundle\Document\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -36,7 +37,7 @@ class RegistrationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-           'data_class' => IncomingUser::class,
+           'data_class' => User::class,
         ));
     }
 

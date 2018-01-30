@@ -2,40 +2,29 @@
 # https://symfony.com/doc/current/security.html
 security:
 
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        Acme\StoreBundle\Document\User: bcrypt
+
+
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-            my_mongo_provider:
-                mongodb: {class: Acme\StoreBundle\Document\User, property: login}
+        our_users:
+            entity: {class: Acme\StoreBundle\Document\User, property: login}
 
-            in_memory:
-                memory:
-                    users:
-                        admin:
-                            password: rabbit
-                            roles: "ROLE_ADMIN"
+        in_memory:
+            memory:
+                users:
+                    admin:
+                        password: rabbit
+                        roles: "ROLE_ADMIN"
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-        main:
-            pattern: ^/
-            provider: my_mongo_provider
-            http_basic: ~
-            anonymous: ~
-            # activate different ways to authenticate
-
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-            #http_basic: ~
-
-            # https://symfony.com/doc/current/security/form_login_setup.html
-            #form_login: ~
-
-    access_control:
-        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - { path: ^/admin, roles: ROLE_ADMIN }
-
-    encoders:
-            Acme\StoreBundle\Document\User: plaintext
+            main:
+                anonymous: ~
+                form_login:
+                    login_path: login
+                    check_path: login_check
+                logout:
+                    path: /logout
+                    target: /

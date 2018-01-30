@@ -20,53 +20,77 @@ use Acme\StoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 
 class PersonalAreaController extends DefaultController
 {
+
+    const SECURITY_FIREWALL = 'main';
+    const HOMEPAGE = '/';
     /**
      * @Method({"GET", "POST"})
-     * @Route("/personal", name="personal_area")
+     * @Route("/personal", name="login")
      * @param Request $request
      * @return mixed
      */
     public function loginAction(Request $request)
     {
-        $enquiry = new IncomingUser();
+        $user = new User();
 
-        $form = $this->createForm(LoginType::class, $enquiry);
-        $form1 = $this->createForm(RegistrationType::class, $enquiry);
-        $user = $this->getUserById();
+        $loginForm = $this->createForm(LoginType::class, $user);
+        $registrationForm = $this->createForm(RegistrationType::class, $user);
+        $user = $this->getUserByRequest($request);
         if ($user) {
-//            $arr = array("login" => $user->getLogin(),
-//                "email" => $user->getEmail(),
-//                "nickname" => $user->getNickname(),
-//                "liked_product_list" => array(
-//                    array("href" => "http://betshappy.ru")
-//                ));
-//            $this->addHeaderLink($arr);
-//            return $this->render('AcmeStoreBundle:Default:personal_area.html.twig',
-//                                 $arr);
+            $arr = array("login" => $user->getLogin(),
+                "email" => $user->getEmail(),
+                "nickname" => $user->getNickname(),
+                "liked_product_list" => array(
+                    array("href" => "http://betshappy.ru")
+                ));
+            $this->addHeaderLink($arr);
+            return $this->render('AcmeStoreBundle:Default:personal_area.html.twig',
+                                 $arr);
             return $this->getContentForAuthtorizationUser($user);
         }
-
         if ($request->isMethod($request::METHOD_POST)) {
-            $form->handleRequest($request);
-            $form1->handleRequest($request);
-            if ($form->isValid() || $form1->isValid()) {
-                $user = new User();
-                if (strcasecmp("authorization", $enquiry->getType()) == 0) {
-                    $user = $this->processAuthorizationRequest($enquiry, $form1, $form);
+            $loginForm->handleRequest($request);
+            $registrationForm->handleRequest($request);
+            echo "</br>:fggkihjkglh";
+            if ($registrationForm->isValid()) {
+                echo "</br>:fggkihjkglh";
+                $password = $this->get('security.password_encoder')
+                    ->encodePassword($user, $user->getPassword());
+                echo "</br>:fggkihjkglh";
+                $user->setPassword($password);
+                echo "</br>:fggkihjkglh";
+                $em = $this->get("doctrine_mongodb")->getManager();
+                $em->persist($user);
+                $em->flush();
+                print_r($user);
+                $token = new UsernamePasswordToken($user, null, self::SECURITY_FIREWALL, $user->getRoles());
+                $this->get('security.token_storage')->setToken($token);
+                $user->setToken($token);
+                $em->persist($user);
+                $em->flush();
 
-                } else if (strcasecmp("registration", $enquiry->getType()) == 0){
-                    $user = $this->processRegistrationRequest($enquiry);
-                }
-                $_SESSION["user_id"] = $user->getId();
+                setcookie("UserId", $user->getId(), time()+86400);
+                return $this->getContentForAuthtorizationUser($user);
+            }
+
+            if ($loginForm->isValid()) {
                 return $this->getContentForAuthtorizationUser($user);
             }
         }
         return $this->render('AcmeStoreBundle:Default:autorization_page.html.twig',
-                             $this->prepareContent($form1, $form));
+                             $this->prepareContent($registrationForm, $loginForm));
+    }
+
+    /**
+     * @Route("/login_check", name="login_check")
+     */
+    public function loginCheckAction()
+    {
     }
 
     /**
@@ -81,8 +105,9 @@ class PersonalAreaController extends DefaultController
                 array("href" => "http://betshappy.ru")
             ));
         $this->addHeaderLink($arr);
-        return $this->render('AcmeStoreBundle:Default:personal_area.html.twig',
+        $response = $this->render('AcmeStoreBundle:Default:personal_area.html.twig',
                              $arr);
+        return $response;
     }
 
     private function prepareContent($form, $form1) {
@@ -112,27 +137,8 @@ class PersonalAreaController extends DefaultController
                                  $array);
         }
         $user = array_shift($users);
+
         return $user;
-    }
-
-    private function processRegistrationRequest($enquiry) {
-        $enquiry->setPassword($enquiry->getPlainPassword());
-        $this->save($enquiry);
-        $this->createUser($enquiry);
-        $users = $this->get('doctrine_mongodb')
-            ->getManager()
-            ->getRepository("AcmeStoreBundle:User")
-            ->getByLogin($enquiry->getLogin());
-        return count($users) > 0 ? array_shift($users) : null;
-    }
-
-    private function createUser($enquiry) {
-        $user = new User();
-        $user->setPassword($enquiry->getPassword());
-        $user->setNickname($enquiry->getNickname());
-        $user->setLogin($enquiry->getLogin());
-        $user->setEmail($enquiry->getEmail());
-        $this->save($user);
     }
 
     /**
@@ -141,7 +147,7 @@ class PersonalAreaController extends DefaultController
      * @return mixed
      */
     public function exitAtAccount() {
-        $answer = session_destroy();
+        $answer = setcookie("UserId", "0", time()-86400);
         return $answer ?
             new Response("Exit") :
             new Response("Not exit");
