@@ -1,5 +1,5 @@
 {% extends 'layout.html.twig' %}
-{% block title %}Contact{% endblock%}
+{% block title %}Add record{% endblock%}
 {% block jsScripts %}
     <script src="{{ asset('js/jquery-3.2.1.min.js')}}"></script>
     <script src="{{ asset('js/createNewField.js')}}"></script>
@@ -20,23 +20,7 @@
 
     {{ form_start(form, { 'action': path('create_product'), 'method': 'POST', 'attr': {'class': 'create-product'} }) }}
     {{ form_errors(form) }}
-
-    {#{{ form_row(form.photos) }}#}
-    {#{{ form_row(form.name) }}#}
-    {#{{ form_row(form.addressList) }}#}
-    {#{{ form_row(form.description) }}#}
-    {#{{ form_row(form.shortDescription) }}#}
-    {#{{ form_row(form.characteristics) }}#}
     {{ form_row(form._token) }}
-    {#<ul id="email-fields-list"#}
-        {#data-prototype="{{ form_widget(form.characteristics.vars.prototype)|e }}">#}
-        {#{% for characteristicField in form.characteristics%}#}
-            {#<li>#}
-                {#{{ form_errors(characteristicField) }}#}
-                {#{{ form_widget(characteristicField) }}#}
-            {#</li>#}
-        {#{% endfor %}#}
-    {#</ul>#}
 
     <div class="field-container">
         {{ form_row(form.name, {'div': {'attr': {'class': 'field-container'}}}) }}
@@ -99,15 +83,12 @@
         </ul>
     </div>
 
-    {#{{ form_rest(form) }}#}
-
-    <input type="submit" value="Submit" />
+    <input type="submit" value="Submit" id="button-add"/>
 
 {% endblock %}
 
 {% block javascripts %}
 <script type="text/javascript">
-    // keep track of how many email fields have been rendered
     var characteristicsCount = '{{ form.characteristics|length }}';
     var photosCount = '{{ form.photos|length }}';
     var addressCount = '{{ form.addressList|length }}';

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html"; charset=utf-8" />
-    <title>{% block title %}TITLE{% endblock %} - rc-go.ru</title>
+    <title>{% block title %}TITLE{% endblock %} - rc.ru</title>
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -24,17 +24,19 @@
 <section id="header-wrapper">
     <header id="header">
         <div class="header-box">
-            <div class="col-md-offset-1 col-md-2">
-                <div class="logo"> </div>
+            <div class="col-md-offset-1 col-md-2 col-xs-3">
+                <a href="/">
+                    <div class="logo"> </div>
+                </a>
             </div>
-            <div class="control-buttons-container col-md-2">
+            <div class="control-buttons-container col-md-2 col-sx-2">
                 <ul class="navigation">
                     <li><a class="blue" href="{{ path('default_show') }}" data-toggle="tooltip" data-placement="top" title="Главная страница"></a></li>
                     <li><a class="green" href="{{ path('catalog_show') }}" data-toggle="tooltip" data-placement="top" title="Каталог"></a></li>
-                    <li><a class="orange" href="{{ path('AcmeStoreBundle_login') }}" data-toggle="tooltip" data-placement="top" title="Личный кабинет"></a></li>
+                    <li><a class="orange" href="{{ path('personal_area') }}" data-toggle="tooltip" data-placement="top" title="Личный кабинет"></a></li>
                 </ul>
             </div>
-            <div class="search col-md-offset-3 col-md-2" id="search">
+            <div class="search col-md-offset-3 col-md-2 col-sx-3 col-xs-offset-2">
                 <input type="submit" id="search-button" value=""/>
                 <input class="search-input" id="search-input" type="text" placeholder="Search" href="/catalog"/>
             </div>

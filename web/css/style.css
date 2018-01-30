@@ -1,11 +1,11 @@
 body {
-    background-color: #ffffff;
+    /*background-color: #e5ffff;*/
     border-color: #0000ff;
     margin: 0px;
 }
 
 .header-box {
-    background-color: #00d3c9;
+    background-color: black;
     height: 50px;
     white-space: nowrap;
 }
@@ -28,17 +28,32 @@ body {
     height: 30px;
     margin-left: 5px;
 }
+.caption h1 {
+    margin-top: 0px;
+}
 
 .message {
+    /*display: none;*/
+    /*margin-left: -350px;*/
+    /*padding: 10px;*/
+    /*margin-top: 17px;*/
+    /*background: #f3f3f3;*/
+    /*height: 200px;*/
+    /*-moz-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);*/
+    /*-webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);*/
+    /*box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);*/
+}
+
+.auth-form {
+    padding-top: 140px;
+}
+
+#reg-block {
     display: none;
-    margin-left: -350px;
-    padding: 10px;
-    margin-top: 17px;
-    background: #f3f3f3;
-    height: 200px;
-    -moz-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.registration-message h4 {
+    float: right;
 }
 
 .button-control-panel:hover .message {
@@ -58,9 +73,9 @@ footer {
     float: right;
     margin: 10px 3% 0px 0px;
     border-radius: 12px;
-    background-color: #97edff;
+    background-color: #e8e8e8;
     height: 30px;
-    width: 16%;
+    /*width: 16%;*/
 }
 
 #search-button {
@@ -73,7 +88,7 @@ footer {
     background-position: 4px;
     outline: none;
     background-size: 25px;
-    background-color: #97edff;
+    background-color: #e8e8e8;
     margin-top: 2px;
     border-radius: 10px;
     border-width: 0px;
@@ -97,8 +112,9 @@ header {
 
 .control-buttons-container {
     float: right;
-    width: 8%;
-    margin-right: 50px;
+    padding-left: 0px;
+    /* width: 8%; */
+    /* margin-right: 50px; */
 }
 
 .logo {
@@ -115,31 +131,55 @@ header {
     /*padding: 2% 10% 0 10%;*/
     min-height: 500px;
     max-height: 2000px;
+    padding: 0 0 0 0;
 }
 
 .sidebar {
     /*width: 20%;*/
-    background-color: #9ce1ef;
+    padding: 0 0 0 0;
+    /*background-color: #9ce1ef;*/
     height: 700px;
     /*position: absolute;*/
 }
 
 .sidebar a {
     font-size: 18px;
+    min-height: 30px;
+    border: 2px solid gray;
+    margin-bottom: 2px;
+    border-radius: 4px;
+    /* transform: translateY(-15%); */
+    line-height: 20px;
+}
+
+.sidebar a:hover {
+    background-color: #d8d7ff;
+    border-color: forestgreen;
 }
 
 .content {
     /* float: right; */
     /* position: relative; */
-    background-color: #b1e4ee;
+    /*background-color: #b1e4ee;*/
     /* height: 100%; */
     min-height: 600px;
     /* min-width: 100%; */
 }
 
+.green-border {
+    border: 2px solid green;
+    border-radius: 10px;
+    margin-left: 4px;
+}
+
 .content .popular-title {
     padding-top: 15px;
     padding-left: 15px;
+}
+
+.content .recent-additions {
+    margin-top: 10px;
+    padding-bottom: 5px;
 }
 
 .sidebar-element {
@@ -154,17 +194,20 @@ header {
 }
 
 .photo {
-    width: 20%;
-    background-color: #000000;
-    height: 200px;
+    /*width: 20%; */
+    /* background-color: #000000; */
+     height: 200px;
     border-radius: 25px;
-    position: absolute;
-    display: inline-block;
+    /* position: absolute; */
+    /* display: inline-block; */
+    background-color: #7cc573;
+    padding: 0 2px;
 }
 
 .photo img {
     width: 100%;
-    padding-top: 25%;
+    /* padding-top: 25%; */
+    padding-top: 35%;
 }
 
 .content-element {
@@ -180,13 +223,19 @@ header {
 }
 
 .description-container {
-    background-color: #333333;
-    float: right;
-    width: 80%;
-    height: 9%;
-    margin-top: 3%;
-    margin-right: 5%;
-    margin-left: 10%;
+    /*background-color: #333333;*/
+    /*float: right;*/
+    /*width: 80%;*/
+    /*height: 9%;*/
+    /*margin-top: 3%;*/
+    /*margin-right: 5%;*/
+    /*margin-left: 10%;*/
+    margin-top: 25px;
+    /*background-color: #2cbecd;*/
+    min-height: 150px;
+    max-height: 160px;
+    border-radius: 0px 10px 10px 0px;
+    background-color: #c9ff9f;
 }
 
 .characteristic-field {
@@ -209,7 +258,7 @@ header {
 }
 
 .popular-element img {
-    width: 100%;
+    width: 120%;
     max-height: 100px;
 }
 
@@ -227,8 +276,15 @@ header {
     font-size: 30px;
 }
 
-.popular elements-container {
-    overflow-x: scroll;
+.popular .elements-container {
+    /*overflow-x: scroll;*/
+    height: 120px;
+    padding-left: 8.33333333%;
+    padding-top: 15px;
+}
+
+.elements-container {
+    padding-top: 15px;
 }
 
 .cursor-pointer {
@@ -280,11 +336,21 @@ header {
     margin-top: 10px;
 }
 
+.login-field input {
+    border-radius: 0px;
+    border: 0px;
+}
+
+.header-lk-not-enter input {
+    border: 0px;
+}
+
 .lk-not-enter-content {
     /*width: 80%; */
     /* margin-left: 10%; */
-    background-color: blue;
+    /*background-color: rgba(94, 159, 233, 0.83);*/
     /* height: 400px; */
+    height: 100%;
 }
 
 .lk-not-enter-content .con {
@@ -320,10 +386,14 @@ header {
 }
 
 .registration_button {
-    background-color: azure;
-    height: 30px;
+    /*background-color: azure;*/
+    /*height: 30px;*/
     margin-top: 15px;
     margin-bottom: 15px;
+    height: 54px;
+    border: 2px solid grey;
+    border-radius: 45px;
+    background-color: #a7ffae;
 }
 
 .login-field {
@@ -338,10 +408,26 @@ header {
     /*float: right;*/
     /* margin: 10px 3% 0px 0px; */
     border-radius: 12px;
-    background-color: #97edff;
+    background-color: #e8e8e8;
     height: 30px;
     width: 85%;
     border: 0px;
+}
+
+.search:focus {
+    background-color: #d8d7ff;
+    border-color: forestgreen;
+}
+
+.product-characteristics {
+    padding-top: 15px;
+}
+
+.product-description p {
+    line-height: 14px;
+    font-size: 14px;
+    text-indent: 20px;
+    text-align: justify;
 }
 
 .product-image {
@@ -354,6 +440,11 @@ header {
 .product-image img {
     width: 300px;
     padding-top: 20%;
+}
+
+.popular-element .img {
+    width: 100%;
+    max-height: 100px;
 }
 
 .product-name {
@@ -383,4 +474,91 @@ header {
 
 .main-col h1 {
     font-size: 30px;
+}
+
+/*.container {*/
+    /*background-color: hsla(197, 100%, 50%, 0.66);*/
+/*}*/
+
+.user-photo {
+    min-height: 200px;
+    /*background-color: #aa0ec7;*/
+}
+
+.user-photo img {
+    width: 100%;
+    border-radius: 135px;
+}
+
+.user-info {
+    min-height: 200px;
+    /*background-color: #ff00d4;*/
+}
+
+.user-info label {
+    font-size: 26px;
+    margin-top: 10px;
+}
+
+.user-info h3 {
+    margin-left: 10px;
+    color: black;
+    margin-top: 0px;
+
+}
+
+.user-liked {
+    min-height: 200px;
+    /*background-color: #d5c82e;*/
+    color: black;
+    margin-left: 4%;
+}
+
+.user-info .button-area input {
+    margin-top: 10px;
+    height: 30px;
+    width: 100%;
+    border: 0px;
+}
+
+.edit-button,
+.exit-button {
+    width: 80px;
+}
+
+.main-section {
+    padding: 0 0 0 0;
+}
+
+.marked {
+    background-image: url(../images/marked.png);
+}
+
+.not-marked {
+    background-image: url(../images/not-marked.png);
+}
+
+#field-liked {
+    height: 50px;
+}
+
+#field-liked img {
+    height: 50px;
+    width: 50px;
+}
+
+.marker {
+    margin-left: 28px;
+    margin-top: 20px;
+}
+
+.marker-container {
+    background-size: 38px;
+    background-repeat: no-repeat;
+    height: 40px;
+    cursor: pointer;
+}
+
+.personal-container {
+
 }

@@ -162,17 +162,16 @@ class Product
     /**
      * Set listPhotos
      *
-     * @param collection $listPhotos
-     * @return $this
+     * @param array $listPhotos
      */
     public function setPhotos($listPhotos)
     {
         $this->photos = $listPhotos;
-        return $this;
     }
 
     /**
      * Get listPhotos
+     * @return array $photos
      */
     public function getPhotos()
     {

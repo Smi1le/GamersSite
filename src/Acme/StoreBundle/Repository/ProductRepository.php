@@ -46,12 +46,11 @@ class ProductRepository extends DocumentRepository
     }
 
     public function findById($id) {
-	    return iterator_to_array($this
+	    return $this
             ->createQueryBuilder()
-            ->field("_id")
-            ->equals($id)
+            ->field("_id")->equals($id)
             ->getQuery()
-            ->execute());
+            ->execute();
     }
 
 

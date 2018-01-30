@@ -10,9 +10,10 @@ class UserRepository extends DocumentRepository implements UserLoaderInterface
 {
     public function getByLogin($login) {
         return $this->createQueryBuilder()
-            ->field('password')->equals($login)
+            ->field('login')->equals($login)
             ->getQuery()
-            ->execute();
+            ->execute()
+            ->toArray();
     }
 
 

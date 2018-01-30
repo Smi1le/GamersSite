@@ -40,9 +40,15 @@ class MainController extends DefaultController
                     "name" => "fourth",
                     "photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
                     "page_link" => "https://vk.com/na_fokse"
+                ),
+                array(
+                    "name" => "fourth",
+                    "photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
+                    "page_link" => "https://vk.com/na_fokse"
                 )
             ),
-            "last_added_title" => "Последние добавления"));
+            "last_added_title" => "Последние добавления",
+            'categories' => $this->getListCategories()));
 
 
     }
@@ -55,7 +61,8 @@ class MainController extends DefaultController
                 'caption' => $element->getName(),
                 'description' => $element->getShortDescription(),
                 'characteristics' => $this->getCharacteristics($element->getCharacteristics()),
-                'photo_path' => 'http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg'
+                'photo_path' => 'http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg',
+                'link' => '/product/' . $element->getId()
             );
             array_push($newList, $product);
         }
@@ -69,6 +76,9 @@ class MainController extends DefaultController
     private function getCharacteristics($characteristics) {
         $newList = array();
         for ($i = 0; $i < count($characteristics); $i += 2) {
+            if ($i > 6) {
+                break;
+            }
             $characteristic = array(
                 'name' => $characteristics[$i],
                 'value' => $characteristics[$i + 1],

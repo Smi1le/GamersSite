@@ -47,6 +47,21 @@ class DefaultController extends Controller
         return $arrayResponse;
     }
 
+
+    protected function getUserById() {
+        if(session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (isset($_SESSION["user_id"])) {
+            $id = $_SESSION["user_id"];
+            $user = $this->get('doctrine_mongodb')
+                ->getManager()
+                ->getRepository("AcmeStoreBundle:User")
+                ->findBy(['_id' => $id]);
+            return count($user) > 0 ? $user[0] : null;
+        }
+        return null;
+    }
     /**
      * @Route("/admin")
      */

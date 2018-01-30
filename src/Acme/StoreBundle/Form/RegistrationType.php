@@ -8,9 +8,10 @@
 
 namespace Acme\StoreBundle\Form;
 
-use Acme\StoreBundle\Document\User;
+use Acme\StoreBundle\Document\IncomingUser;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -28,13 +29,14 @@ class RegistrationType extends AbstractType
             'first_options'  => array('label' => 'Password'),
             'second_options' => array('label' => 'Repeat Password')));
         $builder->add('email', EmailType::class);
-        $builder->add('nickname', TextType::class);
+        $builder->add('type', HiddenType::class, array(
+            'data' => 'registration'));
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-           'data_class' => User::class,
+           'data_class' => IncomingUser::class,
         ));
     }
 

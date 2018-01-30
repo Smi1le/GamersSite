@@ -7,7 +7,9 @@
  */
 namespace Acme\StoreBundle\Form;
 
-use Acme\StoreBundle\Document\User;
+use Acme\StoreBundle\Document\IncomingUser;
+use Doctrine\ODM\MongoDB\Types\BooleanType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,13 +23,16 @@ class LoginType extends AbstractType
     {
         $builder->add('login', TextType::class);
         $builder->add('password', PasswordType::class);;
+        $builder->add('type', HiddenType::class, array(
+            'data' => 'authorization'));
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => User::class,
+            'data_class' => IncomingUser::class,
         ));
+//        $resolver->setRequired(array('type'));
     }
 
     public function getBlockPrefix()

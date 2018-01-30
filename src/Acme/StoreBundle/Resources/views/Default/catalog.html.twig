@@ -10,14 +10,21 @@
 {% extends 'layout.html.twig' %}
 {% block body %}
     <div class="main-container">
-        <div class="content">
+        <div class="content green-border">
             <div class="popular-title">
                 <div class="badge"></div>
                 <p>{{catalog_title}}</p>
             </div>
             <div class="elements-container col-md-12">
                 {% for element in catalog_list %}
-                    {% include "car_element.html.twig" %}
+                    <div class="popular-element col-md-3">
+                        <a href="{{element.page_link}}">
+                            <div class="popular-image cursor-pointer">
+                                <img class="img" src="{{element.photo_path}}" />
+                            </div>
+                        </a>
+                        <div class="element-name cursor-pointer"><a href="{{element.page_link}}"><p>{{element.name}}</p></a></div>
+                    </div>
                 {% endfor %}
             </div>
         </div>

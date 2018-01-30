@@ -2,46 +2,53 @@
 
 {% block body %}
     <div class="content">
-        <div class="popular">
+        <div class="popular green-border">
             <div class="popular-title">
                 <div class="badge"></div>
                 <p>{{popular_title}}</p>
             </div>
             <div class="elements-container">
+                <div class="col-md-offset-1 "></div>
                 {% for element in popular_list %}
                     {% include "car_element.html.twig" %}
                 {% endfor %}
             </div>
         </div>
-        <div class="popular-title">
-            <div class="badge"></div>
-            <p>{{last_added_title}}</p>
-        </div>
-        {% for element in content_list %}
-            <div class="content-element">
-                <div class="description">
-                    <div class="photo" >
-                        <img src="{{element.photo_path}}" />
-                    </div>
-                    <div class="description-container">
-                        <div class="caption outgoing-left">
-                            <h1>{{element.caption}}</h1>
+        <div class="recent-additions green-border">
+            <div class="popular-title">
+                <div class="badge"></div>
+                <p>{{last_added_title}}</p>
+            </div>
+            {% for element in content_list %}
+                <div class="content-element">
+                    <div class="description row">
+                        <div class="photo col-md-2" >
+                            <a href="{{ element.link }}">
+                                <img src="{{element.photo_path}}" />
+                            </a>
                         </div>
-                        <div class="go">
-                            <div class="desc-cars outgoing-left">
-                                <h1>{{element.description}}</h1>
+                        <div class="description-container col-md-9">
+                            <div class="caption">
+                                <a href="{{ element.link }}">
+                                    <h1>{{element.caption}}</h1>
+                                </a>
                             </div>
-                            <div class="characteristics-cars outgoing-left">
-                                {% for characteristic in element.characteristics %}
-                                    <div class="characteristic-field">
-                                        {{characteristic.name}} : {{characteristic.value}}
-                                    </div>
-                                {% endfor %}
+                            <div class="go">
+                                <div class="desc-cars">
+                                    <h4>{{element.description}}</h4>
+                                </div>
+                                <div class="characteristics-cars">
+                                    {% for characteristic in element.characteristics %}
+                                        <div class="characteristic-field">
+                                            {{characteristic.name}} : {{characteristic.value}}
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

@@ -1,10 +1,18 @@
 .blogger-notice { text-align: center; padding: 10px; background: #DFF2BF; border: 1px solid; color: #4F8A10; margin-bottom: 10px; }
-form.registration { font-size: 16px; margin-left: 10%;  }
+form.registration { font-size: 16px;  }
 form.registration div { clear: left; }
-form.registration label { margin-right: 10px; text-align: right;  padding-top: 10px;}
+form.registration label { margin-right: 10px; font-size: 22px;/*text-align: right;  padding-top: 10px;*/}
 form.registration input[type="text"],
 form.registration input[type="email"],
-form.registration input[type="password"] { line-height: 26px; font-size: 20px; min-height: 26px; }
+form.registration input[type="password"] { line-height: 26px; font-size: 20px; min-height: 26px;
+    border: 2px solid grey; border-radius: 10px;}
+form.registration input[type="text"]:focus,
+form.registration input[type="email"]:focus,
+form.registration input[type="password"]:focus { border:2px solid forestgreen; outline: aqua;}
+
 form.registration textarea { width: 500px; height: 150px; line-height: 26px; font-size: 20px; }
 form.registration input[type="submit"] {  font-size: 20px; }
 form.registration ul li { color: #ff0000; margin-bottom: 5px; }
+.photos-block img {
+    width: 100%;
+}
