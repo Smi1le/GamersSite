@@ -2,7 +2,9 @@
 
 namespace Acme\StoreBundle\Controller;
 
-use Acme\StoreBundle\Document\Product;
+use Acme\StoreBundle\Document\User;
+use MongoDB\BSON\ObjectID;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
+    const COOKIE_TIME_LIMIT = 86400;
+
     protected function getManager() {
         return $this
             ->get("doctrine_mongodb")
@@ -17,21 +21,33 @@ class DefaultController extends Controller
     }
 
     protected function save($object) {
-        $manager = $this->getRepository();
+        $manager = $this->getManager();
         $manager->persist($object);
         $manager->flush();
     }
 
-    protected function addHeaderLink($arrayResponse) {
-        $arrayResponse["home_link"] = "/";
-        $arrayResponse["catalog_link"] = "/catalog";
-        $arrayResponse["lk_link"] = "/lk";
-        return $arrayResponse;
+    protected function remove($value) {
+        $manager = $this->getManager();
+        $manager->remove($value);
+        $manager->flush();
+    }
+
+    /**
+     * @param $userId
+     */
+    protected function setUserIdInCookie($userId) {
+        setcookie("UserId", $userId, time()+self::COOKIE_TIME_LIMIT);
+    }
+
+    /**
+     * @param $userId
+     */
+    protected function removeUserIdInCookie($userId) {
+        setcookie("UserId", $userId, time()-self::COOKIE_TIME_LIMIT);
     }
 
 
     protected function getUserByRequest(Request $request) {
-        print_r($_COOKIE);
         if (isset($_COOKIE["UserId"])) {
             $id = $_COOKIE["UserId"];
             $user = $this->get('doctrine_mongodb')
@@ -42,6 +58,38 @@ class DefaultController extends Controller
         }
         return null;
 
+    }
+
+    /**
+     * @param $user User
+     * @return Response Response
+     */
+    protected function preparePersonalAreaContent($user) {
+        $arr = array("login" => $user->getLogin(),
+            "email" => $user->getEmail(),
+            "nickname" => $user->getNickname(),
+            "liked_product_list" => array(
+                array("href" => "http://betshappy.ru")
+            ));
+        $response = $this->render('AcmeStoreBundle:Default:personal_area.html.twig',
+                                  $arr);
+        return $response;
+    }
+
+    /**
+     * @param Form $form
+     * @return array
+     */
+    protected function prepareContent(Form $form) {
+        $arr = array('form' => $form->createView(), 'title_name' => "Registration",
+            "Placeholder_search" => "Поиск",
+            "autorization_title" => "Авторизация",
+            "registration_title" => "Регистрация",
+            "entering_button" => "Войти",
+            "error_message" => "",
+            "forgotten_password" => "Забыли пароль",
+            'categories' => $this->getListCategories());
+        return $arr;
     }
 
     /**
@@ -60,12 +108,16 @@ class DefaultController extends Controller
             ->findSortedByDate();
     }
 
-    protected function getCategories() {
-        return $this
-            ->get('doctrine_mongodb')
-            ->getManager()
-            ->getRepository('AcmeStoreBundle:Category')
-            ->findSortedByName();
+    /**
+     * Encoding user password
+     *
+     * @param User $user
+     * @return User
+     */
+    protected function encodePassword($user) {
+        $password = $this->get('security.password_encoder')
+            ->encodePassword($user, $user->getPassword());
+        $user->setPassword($password);
     }
 
     protected function getListCategories() {
@@ -79,5 +131,13 @@ class DefaultController extends Controller
             array_push($newList, $newCategory);
         }
         return $newList;
+    }
+
+    private function getCategories() {
+        return $this
+            ->get('doctrine_mongodb')
+            ->getManager()
+            ->getRepository('AcmeStoreBundle:Category')
+            ->findSortedByName();
     }
 }

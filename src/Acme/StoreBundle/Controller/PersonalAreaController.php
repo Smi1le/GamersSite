@@ -27,118 +27,22 @@ class PersonalAreaController extends DefaultController
 {
 
     const SECURITY_FIREWALL = 'main';
-    const HOMEPAGE = '/';
+    const HOMEPAGE = 'default_show';
+    const PERSONAL = 'personal';
+
     /**
      * @Method({"GET", "POST"})
-     * @Route("/personal", name="login")
+     * @Route("/personal", name="personal")
      * @param Request $request
      * @return mixed
      */
-    public function loginAction(Request $request)
+    public function personalArea(Request $request)
     {
-        $user = new User();
-
-        $loginForm = $this->createForm(LoginType::class, $user);
-        $registrationForm = $this->createForm(RegistrationType::class, $user);
         $user = $this->getUserByRequest($request);
         if ($user) {
-            $arr = array("login" => $user->getLogin(),
-                "email" => $user->getEmail(),
-                "nickname" => $user->getNickname(),
-                "liked_product_list" => array(
-                    array("href" => "http://betshappy.ru")
-                ));
-            $this->addHeaderLink($arr);
-            return $this->render('AcmeStoreBundle:Default:personal_area.html.twig',
-                                 $arr);
-            return $this->getContentForAuthtorizationUser($user);
+            return $this->preparePersonalAreaContent($user);
         }
-        if ($request->isMethod($request::METHOD_POST)) {
-            $loginForm->handleRequest($request);
-            $registrationForm->handleRequest($request);
-            echo "</br>:fggkihjkglh";
-            if ($registrationForm->isValid()) {
-                echo "</br>:fggkihjkglh";
-                $password = $this->get('security.password_encoder')
-                    ->encodePassword($user, $user->getPassword());
-                echo "</br>:fggkihjkglh";
-                $user->setPassword($password);
-                echo "</br>:fggkihjkglh";
-                $em = $this->get("doctrine_mongodb")->getManager();
-                $em->persist($user);
-                $em->flush();
-                print_r($user);
-                $token = new UsernamePasswordToken($user, null, self::SECURITY_FIREWALL, $user->getRoles());
-                $this->get('security.token_storage')->setToken($token);
-                $user->setToken($token);
-                $em->persist($user);
-                $em->flush();
-
-                setcookie("UserId", $user->getId(), time()+86400);
-                return $this->getContentForAuthtorizationUser($user);
-            }
-
-            if ($loginForm->isValid()) {
-                return $this->getContentForAuthtorizationUser($user);
-            }
-        }
-        return $this->render('AcmeStoreBundle:Default:autorization_page.html.twig',
-                             $this->prepareContent($registrationForm, $loginForm));
-    }
-
-    /**
-     * @Route("/login_check", name="login_check")
-     */
-    public function loginCheckAction()
-    {
-    }
-
-    /**
-     * @param $user User
-     * @return Response Response
-     */
-    private function getContentForAuthtorizationUser($user) {
-        $arr = array("login" => $user->getLogin(),
-            "email" => $user->getEmail(),
-            "nickname" => $user->getNickname(),
-            "liked_product_list" => array(
-                array("href" => "http://betshappy.ru")
-            ));
-        $this->addHeaderLink($arr);
-        $response = $this->render('AcmeStoreBundle:Default:personal_area.html.twig',
-                             $arr);
-        return $response;
-    }
-
-    private function prepareContent($form, $form1) {
-        $arr = array('form_reg' => $form->createView(), 'form_auth' => $form1->createView(), 'title_name' => "Registration",
-            "Placeholder_search" => "Поиск",
-            "autorization_title" => "Авторизация",
-            "registration_title" => "Регистрация",
-            "entering_button" => "Войти",
-            "error_message" => "",
-            "forgotten_password" => "Забыли пароль",
-            'categories' => $this->getListCategories());
-        $arr = $this->addHeaderLink($arr);
-        return $arr;
-    }
-
-    private function processAuthorizationRequest($enquiry, $form1, $form) {
-        $users = $this->get('doctrine_mongodb')
-            ->getManager()
-            ->getRepository("AcmeStoreBundle:User")
-            ->getByLogin($enquiry->getLogin());
-        if (count($users) == 0) {
-            $array = $this->prepareLoginContent($form1, $form);
-            $array["error_message"] = "User not found";
-            $form = $this->createForm(LoginType::class, $enquiry);
-            $form1 = $this->createForm(RegistrationType::class, $enquiry);
-            return $this->render('AcmeStoreBundle:Default:autorization_page.html.twig',
-                                 $array);
-        }
-        $user = array_shift($users);
-
-        return $user;
+        return $this->redirectToRoute(self::HOMEPAGE);
     }
 
     /**

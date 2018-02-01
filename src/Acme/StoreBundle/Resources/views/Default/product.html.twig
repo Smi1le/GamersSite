@@ -1,0 +1,62 @@
+{#
+{% include "base/head.html.twig" %}
+<body>
+	{% include "base/header.html.twig" %}
+    {% include "product_body.html.twig" %}
+</body>
+{% include "base/footer.html.twig" %}
+#}
+
+{% block title %}{{catalog_title}}{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/jquery-3.2.1.min.js')}}"></script>
+    <script src="{{ asset('js/markedAsLiked.js')}}"></script>
+{% endblock %}
+
+{% extends 'layout.html.twig' %}
+{% block body %}
+    <div class="main-container">
+        <div class="content">
+            <div class="product-header row col-md-12">
+                <div class="product-image col-md-3">
+                    <img src="{{product_image_link}}" />
+                </div>
+                <div class="product-name-section col-md-6">
+                    <div class="product-name col-md-12">
+                        <h1>{{product_name}}</h1>
+                    </div>
+                    <div class="product-characteristics col-md-12">
+                        {% for characteristic in product_characteristics %}
+                            <div class="characteristic-field col-md-12">
+                                <p><strong>{{characteristic.name}}</strong> : {{characteristic.value}}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-1 marker" id="field-liked">
+                    <input id="product-id" type="hidden" value="{{ product_id }}"></input>
+                    {% if ( is_liked )  %}
+                        <div id="marker" class="marker-container marked"></div>
+                    {% else  %}
+                        <div id="marker" class="marker-container not-marked"></div>
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="product-footer row col-md-12">
+                <div class="product-description">
+                    <p>{{product_description}}</p>
+                </div>
+                <div class="container-product-links">
+                    {% for characteristic in product_links %}
+                        <div class="product-links">
+                            <a href="{{characteristic}}">ajkhsdhjagjdsh</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -23,11 +23,6 @@ class User implements UserInterface, \Serializable
     /**
      * @MongoDB\Field(type="string")
      */
-    protected $authToken;
-
-    /**
-     * @MongoDB\Field(type="string")
-     */
     protected $email;
 
     /**

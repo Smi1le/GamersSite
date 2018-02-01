@@ -1,0 +1,99 @@
+{% extends 'layout.html.twig' %}
+{% block jsScripts %}
+    <script src="js/switch.js"></script>
+{% endblock %}
+
+{% block stylesheetsInclude %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/registrationForm.css') }}" />
+{% endblock  %}
+{% block body %}
+    <div class="main-container">
+        <div class="lk-not-enter-content col-md-12">
+            <div id="auth-block">
+                <div>
+                    <h1>Авторизация</h1>
+                </div>
+                <div class="message">
+                    <h4>Введить свои логин и пароль для того чтобы авторизоваться в системе</h4>
+                    <a href="/registration"><div id="to-reg"><h4>Регистрация</h4></div></a>
+                </div>
+                <div class="auth-form col-md-6">
+                    {{ form_start(form, { 'action': path('login'),
+                        'method': 'POST', 'attr': {'class': 'registration'} }) }}
+                    {{ form_errors(form) }}
+                    <div class="login-field">
+                        {{ form_row(form.login, {'label_attr': {'class': 'col-md-12 col-xs-12'},
+                            'attr' : {'class': 'col-md-10 col-md-offset-1 col-xs-12'}}) }}
+                    </div>
+                    <div class="login-field">
+                        {{ form_row(form.password, {'label_attr': {'class': 'col-md-12 col-xs-12'},
+                            'attr' : {'class': 'col-md-10 col-md-offset-1 col-xs-12'}}) }}
+                    </div>
+                    {{ form_row(form._token) }}
+                    {{ form_rest(form) }}
+                    <input type="submit" value="{{autorization_title}}" class="registration_button col-md-offset-6 col-md-6"
+                           name="button_form_lk"/>
+                    {{  form_end(form) }}
+                    <div class="registration-message col-md-12" id="to-reg2"><h4>Нет аккаунта? <a>Регистрация</a></h4></div>
+                </div>
+                <div class="photos-block col-md-6">
+                    <div class="col-md-offset-5 col-md-6">
+                        <img src="/images/2.jpg" />
+                    </div>
+                    <div class="col-md-6">
+                        <img src="/images/images1.jpg" />
+                    </div>
+                    <div class="col-md-offset-5 col-md-6">
+                        <img src="/images/3.jpg"/>
+                    </div>
+                </div>
+            </div>
+            {#<div id="reg-block">
+                <div>
+                    <h1>Регистрация</h1>
+                </div>
+                <div class="message">
+                    <h4>Создайте аккаунт для того чтобы отмечать понравившиеся статьи</h4>
+                    <a><div id="to-auth">Авторизация</div></a>
+                </div>
+                <div class="auth-form col-md-6">
+                    {{ form_start(form_reg, { 'action': path('login'),
+                        'method': 'POST', 'attr': {'class': 'registration'} }) }}
+                    {{ form_errors(form_reg) }}
+                    <div class="login-field">
+                        {{ form_row(form_reg.login, {'label_attr': {'class': 'col-md-12 col-xs-12'},
+                            'attr' : {'class': 'col-md-10 col-md-offset-1 col-xs-12'}}) }}
+                    </div>
+                    <div class="login-field">
+                        {{ form_row(form_reg.plainPassword.first, {'label_attr': {'class': 'col-md-12 col-xs-12'},
+                            'attr' : {'class': 'col-md-10 col-md-offset-1 col-xs-12'}}) }}
+                    </div>
+                    <div class="login-field">
+                        {{ form_row(form_reg.plainPassword.second, {'label_attr': {'class': 'col-md-12 col-xs-12'},
+                            'attr' : {'class': 'col-md-10 col-md-offset-1 col-xs-12'}}) }}
+                    </div>
+                    <div class="login-field">
+                        {{ form_row(form_reg.email, {'label_attr': {'class': 'col-md-12 col-xs-12'},
+                            'attr' : {'class': 'col-md-10 col-md-offset-1 col-xs-12'}}) }}
+                    </div>
+                    {{ form_rest(form_reg) }}
+                    <input type="submit" value="{{registration_title}}" class="registration_button col-md-offset-6 col-md-6"
+                           name="button_form_lk" />
+                    {{  form_end(form_reg) }}
+                    <a><div class="registration-message col-md-12" id="to-auth2"><h4>Есть аккаунт? Вход</h4></div></a>
+                </div>
+                <div class="photos-block col-md-6">
+                    <div class="col-md-offset-5 col-md-6">
+                        <img src="/images/2.jpg" />
+                    </div>
+                    <div class="col-md-6">
+                        <img src="/images/images1.jpg" />
+                    </div>
+                    <div class="col-md-offset-5 col-md-6">
+                        <img src="/images/3.jpg"/>
+                    </div>
+                </div>
+            </div>#}
+        </div>
+    </div>
+{% endblock %}
