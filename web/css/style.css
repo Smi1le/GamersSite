@@ -500,18 +500,96 @@ header {
     margin-top: 10px;
 }
 
-.user-info h3 {
+.user-info input {
     margin-left: 10px;
     color: black;
     margin-top: 0px;
+    border: 2px solid darkgrey;
+    line-height: 30px;
+    font-size: 20px;
+    border-radius: 16px;
 
+}
+
+.user-info input:focus {
+    background-color: #d8d7ff;
+    border-color: forestgreen;
+}
+
+#change-button {
+    position: absolute;
+    /*margin: 0px auto;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    z-index: 20;
+    margin-top: 25%;
+    margin-left: 36%;
+}
+
+#avatar-accept {
+    position: absolute;
+    z-index: 20;
+    float: right;
+    margin-top: 50%;
+    margin-left: -7%;
+}
+
+#change-avatar div {
+    margin: 0px auto;
+}
+
+
+
+#layer {
+    position: absolute;
+    display: none;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.5);
+    z-index: 5;
 }
 
 .user-liked {
     min-height: 200px;
     /*background-color: #d5c82e;*/
     color: black;
+    padding: 0;
+    margin-top: 20px;
     margin-left: 4%;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.user-liked h3 {
+    font-size: 26px;
+    font-style: oblique;
+    font-weight: bold;
+}
+
+.user-liked .popular-element {
+    width: 220px;
+    height: 120px;
+    margin-top: 26px;
+}
+
+.user-liked .popular-image img {
+    width: 100%;
+    height: 100%;
+}
+
+.user-liked .element-name {
+    width: 100%;
+}
+
+.button-area {
+    padding: 0;
+    /*margin-right: 10px;*/
+}
+
+.personal-area {
+    padding: 0;
 }
 
 .user-info .button-area input {

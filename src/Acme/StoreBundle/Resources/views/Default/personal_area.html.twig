@@ -4,43 +4,63 @@
 {% block javascripts %}
     <script src="{{ asset('js/jquery-3.2.1.min.js')}}"></script>
     <script src="{{ asset('js/exit.js')}}"></script>
+    <script src="{{ asset('js/personalAreaInfoChange.js')}}"></script>
 {% endblock %}
 
-{% block ies %}
-    <div class="container personal-container">
+{% block body %}
+    <div class="personal-container">
 
-        <div class="col-md-10">
-            <div class="user-photo col-md-3 col-md-offset-1">
-                <img src="https://pp.userapi.com/c624823/v624823135/28af7/doqL8Fb4axE.jpg"/>
+        <div class="col-md-10 personal-area">
+            <div class="user-photo col-md-4">
+                {% if (avatar) %}
+                    <img src="{{ avatar }}"/>
+                {% else %}
+                    <img src="/images/anon.png"/>
+                {% endif %}
+                    {#<input type="file" id="avatar-button" accept="image/*" value="Изменить аватар"/>#}
+                <input type="submit" id="avatar-button" value="Изменить аватар"/>
             </div>
             <div class="user-info col-md-8 row">
-                <div class="info col-md-9">
+                <div class="info col-md-12">
                     <div class="user-login">
                         <label>Login</label>
-                        <h3 >{{ login }}</h3>
+                        <input value="{{ login }}" class="col-md-12" id="login_field"/>
                     </div>
                     <div class="user-email">
                         <label>Email</label>
-                        <h3>{{ email }}</h3>
+                        <input value="{{ email }}" class="col-md-12" id="email_field"/>
                     </div>
                     <div class="user-nickname">
                         <label>Nickname</label>
-                        <h3>{{ nickname }}</h3>
+                        <input value="{{ nickname }}" class="col-md-12" id="nickname_field"/>
                     </div>
                 </div>
 
             </div>
-            <div class="user-liked col-md-12">
-                {% for product in liked_product_list %}
-                    <div class="liked-product">
-                        <a href="{{ product.href }}"></a>
-                    </div>
-                {% endfor %}
-            </div>
         </div>
-        <div class="button-area col-md-1 col-md-offset-1">
+        <div class="button-area col-md-1">
             <input type="submit" value="Выйти" class="exit-button" id="exit-button"/>
             <input type="submit" value="Изменить" class="edit-button"/>
         </div>
+
+        <div class="user-liked col-md-12">
+            <h3>Понравившиеся статьи</h3>
+            {% for element in liked_product_list %}
+                {#<div class="liked-product">#}
+                    {#<a href="{{ product.href }}"></a>#}
+                {#</div>#}
+                {% include "car_element.html.twig" %}
+            {% endfor %}
+            {#{% for element in popular_list %}#}
+
+            {#{% endfor %}#}
+        </div>
+    </div>
+
+    <input type="file" id="change-button" accept="image/*" value="Изменить аватар"/>
+    <input type="submit" id="avatar-accept" value="Поменять"/>
+
+    <div id="layer">
+
     </div>
 {% endblock %}

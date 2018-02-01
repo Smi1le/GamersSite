@@ -10,6 +10,8 @@ namespace Acme\StoreBundle\Controller;
 
 use Acme\StoreBundle\AcmeStoreBundle;
 use Acme\StoreBundle\Document\IncomingUser;
+use Acme\StoreBundle\Document\LikedRecord;
+use Acme\StoreBundle\Document\Product;
 use Acme\StoreBundle\Document\User;
 use Acme\StoreBundle\Form\LoginType;
 use Acme\StoreBundle\Form\RegistrationType;
@@ -49,6 +51,36 @@ class PersonalAreaController extends DefaultController
     }
 
     /**
+     * @Method({"POST"})
+     * @param Request request
+     * @Route("/personal/update/{fieldName}/{newValue}")
+     * @return mixed
+     */
+    public function updateAccountInfo(Request $request, $fieldName, $newValue) {
+        $user = $this->getUserByRequest($request);
+        return new Response($this->changeFieldValueUser($user, $fieldName, $newValue));
+    }
+
+    /**
+     * @param User $user
+     * @param string $fieldName
+     * @param string $newValue
+     * @return mixed
+     */
+    private function changeFieldValueUser($user, $fieldName, $newValue) {
+        if (strcasecmp('login', $fieldName) == 0) {
+            $user->setLogin($newValue);
+        } else if (strcasecmp('email', $fieldName) == 0) {
+            $user->setEmail($newValue);
+        } else if (strcasecmp('nickname', $fieldName) == 0) {
+            $user->setNickname($newValue);
+        }
+        $this->save($user);
+        return self::SUCCESS;
+    }
+
+
+    /**
      * @Method("POST")
      * @Route("/exit", name="Exit")
      * @return mixed
@@ -58,5 +90,76 @@ class PersonalAreaController extends DefaultController
         return $answer ?
             new Response(self::EXIT_SUCCESS) :
             new Response(self::EXIT_FAILURE);
+    }
+
+
+    /**
+     * @param $user User
+     * @return Response Response
+     */
+    private function preparePersonalAreaContent($user) {
+        $arr = array(
+            "login" => $user->getLogin(),
+            "email" => $user->getEmail(),
+            'categories' => $this->getListCategories(),
+            "nickname" => $user->getNickname(),
+            'avatar' => $user->getAvatar(),
+            "liked_product_list" => $this->getProductListWhichUserLike($user));
+
+        return $this->render(self::PERSONAL_AREA_TEMPLATE, $arr);
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    private function getProductListWhichUserLike($user) {
+        $records = $this->getRecordByUserId($user);
+        $listProducts = [];
+        foreach ($records as $value) {
+            array_push($listProducts, $this->prepareProductBeforeImpact($value));
+        }
+        return $listProducts;
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    private function getRecordByUserId($user) {
+        return $this->getManager()
+            ->getRepository(self::LIKED_PRODUCT_REPOSITORY)
+            ->findByUserId($user->getId());
+    }
+
+    /**
+     * @param LikedRecord $likedProduct
+     * @return array
+     */
+    private function prepareProductBeforeImpact($likedRecord) {
+        $products = $this->getManager()->getRepository(self::PRODUCT_REPOSITORY)
+            ->findBy(['_id' => $likedRecord->getProductId()]);
+        $product = array_shift($products);
+        $item['page_link'] = $this->createPathToProduct($product);
+        $item['photo_path'] = $this->createPathToPreviewProduct($product);
+        $item['name'] = $product->getName();
+        return $item;
+    }
+
+    /**
+     * @param Product $product
+     * @return string
+     */
+    private function createPathToProduct($product) {
+        return '/product/' . $product->getId();
+    }
+
+    /**
+     * @param Product $product
+     * @return string
+     */
+    private function createPathToPreviewProduct($product) {
+        $photo = count($product->getPhotos()) === 0 ? "" : $product->getPhotos()[0];
+        return '/' . $photo;
     }
 }

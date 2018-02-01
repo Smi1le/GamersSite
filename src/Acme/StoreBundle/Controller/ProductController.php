@@ -18,9 +18,7 @@ class ProductController extends DefaultController
 {
     const USER_NOT_LOGGED_IN = 'USER_NOT_LOGGED_IN';
     const IS_LIKED = 'true';
-    const SUCCESS = 'OK';
     const ARRAY_TYPE = 'array';
-    const LIKED_PRODUCT_REPOSITORY = 'AcmeStoreBundle:LikedRecord';
     const PRODUCT_TEMPLATE = 'AcmeStoreBundle:Default:product.html.twig';
     const UTC = 'UTC';
     const FORM_FACTORY = 'form.factory';
@@ -108,8 +106,6 @@ class ProductController extends DefaultController
             "product_id" => $productId,
             'is_liked' => $this->isMarked($request, $productId)
         );
-
-        $arr = $this->addHeaderLink($arr);
         return $this->render(self::PRODUCT_TEMPLATE, $arr);
     }
 

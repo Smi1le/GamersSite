@@ -47,23 +47,12 @@ class User implements UserInterface, \Serializable
     protected $nickname;
 
     /**
-     * @MongoDB\Field(name="is_active", type="boolean")
-     */
-    protected $isActive;
-
-/*    /**
-     * @MongoDB\Field(type="string")
-     */ //TODO: в отдельную таблицу с правами
-//    private $type;*/
-
-    /**
      * @MongoDB\Field(type="string")
      */
-    protected $info;
+    private $avatar;
 
     public function __construct()
     {
-        $this->isActive = true;
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
     }
@@ -101,25 +90,25 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set token
+     * Set avatar
      *
-     * @param string $token
+     * @param string $avatar
      * @return $this
      */
-    public function setToken($token)
+    public function setAvatar($avatar)
     {
-        $this->token = $token;
+        $this->avatar = $avatar;
         return $this;
     }
 
     /**
-     * Get token
+     * Get avatar
      *
-     * @return string $token
+     * @return string $avatar
      */
-    public function getToken()
+    public function getAvatar()
     {
-        return $this->token;
+        return $this->avatar;
     }
 
     /**
@@ -142,28 +131,6 @@ class User implements UserInterface, \Serializable
     public function getPassword()
     {
         return $this->password;
-    }
-
-    /**
-     * Set info
-     *
-     * @param string $info
-     * @return $this
-     */
-    public function setInfo($info)
-    {
-        $this->info = $info;
-        return $this;
-    }
-
-    /**
-     * Get info
-     *
-     * @return string $info
-     */
-    public function getInfo()
-    {
-        return $this->info;
     }
 
     /**
@@ -275,28 +242,6 @@ class User implements UserInterface, \Serializable
     public function getPlainPassword()
     {
         return $this->plainPassword;
-    }
-
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     * @return $this
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-        return $this;
-    }
-
-    /**
-     * Get isActive
-     *
-     * @return boolean $isActive
-     */
-    public function getIsActive()
-    {
-        return $this->isActive;
     }
 
     public function setNickname($value) {

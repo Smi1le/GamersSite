@@ -12,4 +12,11 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class LikedProductRepository extends DocumentRepository
 {
+
+    public function findByUserId($userId) {
+        return $this->createQueryBuilder()
+            ->field('user_id')->equals($userId)
+            ->getQuery()
+            ->execute();
+    }
 }

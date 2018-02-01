@@ -12,13 +12,15 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    const COOKIE_TIME_LIMIT = 86400;
+    const SUCCESS = 'OK';
     const USER_ID = 'UserId';
+    const COOKIE_TIME_LIMIT = 86400;
     const PERSONAL_ROUTE = 'personal';
     const DOCTRINE = 'doctrine_mongodb';
-    const PRODUCT_REPOSITORY = 'AcmeStoreBundle:Product';
     const USER_REPOSITORY = 'AcmeStoreBundle:User';
+    const PRODUCT_REPOSITORY = 'AcmeStoreBundle:Product';
     const CATEGORY_REPOSITORY = 'AcmeStoreBundle:Category';
+    const LIKED_PRODUCT_REPOSITORY = 'AcmeStoreBundle:LikedRecord';
     const PASSWORD_ENCODER = 'security.password_encoder';
     const PERSONAL_AREA_TEMPLATE = 'AcmeStoreBundle:Default:personal_area.html.twig';
 
@@ -48,10 +50,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @param $userId
+     * @param string $userId
+     * @return bool
      */
     protected function removeUserIdInCookie($userId) {
-        setcookie(self::USER_ID, $userId, time()-self::COOKIE_TIME_LIMIT);
+        return setcookie(self::USER_ID, $userId, time()-self::COOKIE_TIME_LIMIT);
     }
 
 
@@ -66,21 +69,6 @@ class DefaultController extends Controller
         }
         return null;
 
-    }
-
-    /**
-     * @param $user User
-     * @return Response Response
-     */
-    protected function preparePersonalAreaContent($user) {
-        $arr = array("login" => $user->getLogin(),
-            "email" => $user->getEmail(),
-            "nickname" => $user->getNickname(),
-            "liked_product_list" => array(
-                array("href" => "http://betshappy.ru")
-            ));
-        $response = $this->render(self::PERSONAL_AREA_TEMPLATE, $arr);
-        return $response;
     }
 
     /**
