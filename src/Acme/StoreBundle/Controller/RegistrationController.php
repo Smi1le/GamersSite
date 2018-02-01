@@ -18,7 +18,7 @@ use Acme\StoreBundle\Form\RegistrationType;
 
 class RegistrationController extends DefaultController
 {
-
+    const REGISTRATION_TEMPLATE = 'AcmeStoreBundle:Default:registration_page.html.twig';
 
     /**
      * @Method({"GET", "POST"})
@@ -35,28 +35,9 @@ class RegistrationController extends DefaultController
                 $this->encodePassword($user);
                 $this->save($user);
                 $this->setUserIdInCookie($user->getId());
-                return $this->redirectToRoute(self::PERSONAL);
+                return $this->redirectToRoute(self::PERSONAL_ROUTE);
             }
         }
-        return $this->render('AcmeStoreBundle:Default:registration_page.html.twig',
-                             $this->prepareContent($registrationForm));
+        return $this->render(self::REGISTRATION_TEMPLATE, $this->prepareContent($registrationForm));
     }
-
-    /*private function processAuthorizationRequest($enquiry, $form1, $form) {
-        $users = $this->get('doctrine_mongodb')
-            ->getManager()
-            ->getRepository("AcmeStoreBundle:User")
-            ->getByLogin($enquiry->getLogin());
-        if (count($users) == 0) {
-            $array = $this->prepareLoginContent($form1, $form);
-            $array["error_message"] = "User not found";
-            $form = $this->createForm(LoginType::class, $enquiry);
-            $form1 = $this->createForm(RegistrationType::class, $enquiry);
-            return $this->render('AcmeStoreBundle:Default:autorization_page.html.twig',
-                                 $array);
-        }
-        $user = array_shift($users);
-
-        return $user;
-    }*/
 }

@@ -29,6 +29,9 @@ class PersonalAreaController extends DefaultController
     const SECURITY_FIREWALL = 'main';
     const HOMEPAGE = 'default_show';
     const PERSONAL = 'personal';
+    const EXIT_SUCCESS = 'exit';
+    const EXIT_FAILURE = 'not exit';
+    const ABSTRACT_USER_ID = '0';
 
     /**
      * @Method({"GET", "POST"})
@@ -51,9 +54,9 @@ class PersonalAreaController extends DefaultController
      * @return mixed
      */
     public function exitAtAccount() {
-        $answer = setcookie("UserId", "0", time()-86400);
+        $answer = $this->removeUserIdInCookie(self::ABSTRACT_USER_ID);
         return $answer ?
-            new Response("Exit") :
-            new Response("Not exit");
+            new Response(self::EXIT_SUCCESS) :
+            new Response(self::EXIT_FAILURE);
     }
 }

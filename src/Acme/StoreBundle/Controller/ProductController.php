@@ -16,6 +16,18 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends DefaultController
 {
+    const USER_NOT_LOGGED_IN = 'USER_NOT_LOGGED_IN';
+    const IS_LIKED = 'true';
+    const SUCCESS = 'OK';
+    const ARRAY_TYPE = 'array';
+    const LIKED_PRODUCT_REPOSITORY = 'AcmeStoreBundle:LikedRecord';
+    const PRODUCT_TEMPLATE = 'AcmeStoreBundle:Default:product.html.twig';
+    const UTC = 'UTC';
+    const FORM_FACTORY = 'form.factory';
+    const DATE_FORMAT = 'Y-m-d H:i:s';
+    const CREATE_PRODUCT_TEMPLATE = 'AcmeStoreBundle:Default:create_product.html.twig';
+    const PHOTOS_DIRECTORY = 'photos_directory';
+
     /**
      * @Method("POST")
      * @param Request $request
@@ -25,14 +37,14 @@ class ProductController extends DefaultController
     public function liked(Request $request, $isLiked, $id) {
         $user = $this->getUserByRequest($request);
         if (!$user) {
-            return new Response("USER_NOT_LOGGED_IN");
+            return new Response(self::USER_NOT_LOGGED_IN);
         }
-        if (strcasecmp("true", $isLiked) == 0) {
+        if (strcasecmp(self::IS_LIKED, $isLiked) == 0) {
             $this->markedLiked($id, $user);
         } else {
             $this->uncheck($id, $user);
         }
-        return new Response("OK");
+        return new Response(self::SUCCESS);
     }
 
     /**
@@ -49,20 +61,18 @@ class ProductController extends DefaultController
     private function uncheck($id, $user) {
         $records = $this->getRecord($id, $user->getId());
         if ($records) {
-            if ($records > 0 && gettype($records) === "array") {
+            if ($records > 0 && gettype($records) === self::ARRAY_TYPE) {
                 foreach ($records as $value) {
-                    $dm = $this->get('doctrine_mongodb')->getManager();
-                    $dm->remove($value);
-                    $dm->flush();
+                    $this->remove($value);
                 }
             }
         }
     }
 
     private function getRecord($productId, $userId) {
-        return $this->get('doctrine_mongodb')
+        return $this->get(self::DOCTRINE)
             ->getManager()
-            ->getRepository("AcmeStoreBundle:LikedRecord")
+            ->getRepository(self::LIKED_PRODUCT_REPOSITORY)
             ->getProductBy($productId, $userId);
     }
 
@@ -100,7 +110,7 @@ class ProductController extends DefaultController
         );
 
         $arr = $this->addHeaderLink($arr);
-        return $this->render('AcmeStoreBundle:Default:product.html.twig', $arr);
+        return $this->render(self::PRODUCT_TEMPLATE, $arr);
     }
 
     private function isMarked($request, $productId) {
@@ -118,9 +128,8 @@ class ProductController extends DefaultController
 
     private function getById($id) {
         $arr = $this
-            ->get('doctrine_mongodb')
             ->getManager()
-            ->getRepository('AcmeStoreBundle:Product')
+            ->getRepository(self::PRODUCT_REPOSITORY)
             ->findById($id);
         foreach ($arr as $key => $value) {
             return $value;
@@ -135,9 +144,9 @@ class ProductController extends DefaultController
      */
     public function createProductAction(Request $request) {
         $product = new Product();
-        date_default_timezone_set('UTC');
+        date_default_timezone_set(self::UTC);
         $categories = $this->getAllCategories();
-        $form = $this->get('form.factory')->create(CreateProductType::class, $product,
+        $form = $this->get(self::FORM_FACTORY)->create(CreateProductType::class, $product,
                                                     array('categories' => $this->processCategories($categories)));
         if ($request->isMethod($request::METHOD_POST)) {
             $form->handleRequest($request);
@@ -146,13 +155,13 @@ class ProductController extends DefaultController
                 print_r(get_object_vars($product));
                 $this->processCharacteristicsList($product);
                 $this->uploadFiles($product);
-                $product->setDate(new \MongoDate(strtotime(date("Y-m-d H:i:s"))));
+                $product->setDate(new \MongoDate(strtotime(date(self::DATE_FORMAT))));
                 $this->save($product);
                 return new Response("#". $product->getId());
             }
         }
         $arr = array('form' => $form->createView());
-        return $this->render('AcmeStoreBundle:Default:create_product.html.twig', $arr);
+        return $this->render(self::CREATE_PRODUCT_TEMPLATE, $arr);
     }
 
     /**
@@ -166,11 +175,11 @@ class ProductController extends DefaultController
             echo $file;
             $fileName = md5(uniqid()). '.'. $file->guessExtension();
             $file->move(
-                $this->getParameter('photos_directory'),
+                $this->getParameter(self::PHOTOS_DIRECTORY),
                 $fileName
             );
             echo $fileName;
-            array_push($outPhotos, $this->getParameter("photos_directory"). "\\". $fileName);
+            array_push($outPhotos, $this->getParameter(self::PHOTOS_DIRECTORY). "\\". $fileName);
         }
         print_r($outPhotos);
         $product->setPhotos($outPhotos);
@@ -195,9 +204,8 @@ class ProductController extends DefaultController
      */
     private function getAllCategories() {
         return $this
-            ->get('doctrine_mongodb')
             ->getManager()
-            ->getRepository("AcmeStoreBundle:Category")
+            ->getRepository(self::CATEGORY_REPOSITORY)
             ->findAll();
     }
 

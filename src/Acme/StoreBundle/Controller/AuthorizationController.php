@@ -11,7 +11,9 @@ use Acme\StoreBundle\Form\LoginType;
 
 class AuthorizationController extends DefaultController
 {
-    const PERSONAL = 'personal';
+    const LOGIN = 'login';
+    const USER_REPOSITORY = 'AcmeStoreBundle:User';
+    const AUTHORIZATION_PAGE = 'AcmeStoreBundle:Default:autorization_page.html.twig';
 
     /**
      * @Method({"GET", "POST"})
@@ -26,24 +28,35 @@ class AuthorizationController extends DefaultController
 
         $userByRequest = $this->getUserByRequest($request);
         if ($userByRequest) {
-            return $this->redirectToRoute(self::PERSONAL);
+            return $this->redirectToRoute(self::PERSONAL_ROUTE);
         }
         if ($request->isMethod($request::METHOD_POST)) {
             $loginForm->handleRequest($request);
             if ($loginForm->isValid()) {
-                $findingUser = $this->getManager()->getRepository("AcmeStoreBundle:User")
-                    ->findBy(['login' => $user->getLogin()]);
-                foreach ($findingUser as $us) {
-                    $pass = $this->encodePassword($us);
-                    if (strcasecmp($pass, $us->getPlainPassword())) {
-                        $this->setUserIdInCookie($us->getId());
-                        return $this->redirectToRoute(self::PERSONAL);
-                    }
-                }
+                $findingUsers = $this->searchUsers($user);
+                return $this->searchUserInList($findingUsers, $user);
             }
         }
-        return $this->render('AcmeStoreBundle:Default:autorization_page.html.twig',
+        return $this->render(self::AUTHORIZATION_PAGE,
                              $this->prepareContent($loginForm));
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    private function searchUsers($user) {
+        return $this->getManager()->getRepository(self::USER_REPOSITORY)
+            ->findBy([self::LOGIN => $user->getLogin()]);
+    }
+
+    private function searchUserInList($findingUsers, $user) {
+        foreach ($findingUsers as $us) {
+            if (strcasecmp($user->getPassword(), $us->getPlainPassword()) == 0) {
+                $this->setUserIdInCookie($us->getId());
+                return $this->redirectToRoute(self::PERSONAL_ROUTE);
+            }
+        }
     }
 
     /**

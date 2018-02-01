@@ -13,10 +13,18 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     const COOKIE_TIME_LIMIT = 86400;
+    const USER_ID = 'UserId';
+    const PERSONAL_ROUTE = 'personal';
+    const DOCTRINE = 'doctrine_mongodb';
+    const PRODUCT_REPOSITORY = 'AcmeStoreBundle:Product';
+    const USER_REPOSITORY = 'AcmeStoreBundle:User';
+    const CATEGORY_REPOSITORY = 'AcmeStoreBundle:Category';
+    const PASSWORD_ENCODER = 'security.password_encoder';
+    const PERSONAL_AREA_TEMPLATE = 'AcmeStoreBundle:Default:personal_area.html.twig';
 
     protected function getManager() {
         return $this
-            ->get("doctrine_mongodb")
+            ->get(self::DOCTRINE)
             ->getManager();
     }
 
@@ -36,23 +44,23 @@ class DefaultController extends Controller
      * @param $userId
      */
     protected function setUserIdInCookie($userId) {
-        setcookie("UserId", $userId, time()+self::COOKIE_TIME_LIMIT);
+        setcookie(self::USER_ID, $userId, time()+self::COOKIE_TIME_LIMIT);
     }
 
     /**
      * @param $userId
      */
     protected function removeUserIdInCookie($userId) {
-        setcookie("UserId", $userId, time()-self::COOKIE_TIME_LIMIT);
+        setcookie(self::USER_ID, $userId, time()-self::COOKIE_TIME_LIMIT);
     }
 
 
     protected function getUserByRequest(Request $request) {
-        if (isset($_COOKIE["UserId"])) {
-            $id = $_COOKIE["UserId"];
-            $user = $this->get('doctrine_mongodb')
+        if (isset($_COOKIE[self::USER_ID])) {
+            $id = $_COOKIE[self::USER_ID];
+            $user = $this->get(self::DOCTRINE)
                 ->getManager()
-                ->getRepository("AcmeStoreBundle:User")
+                ->getRepository(self::USER_REPOSITORY)
                 ->findBy(['_id' => $id]);
             return count($user) > 0 ? $user[0] : null;
         }
@@ -71,8 +79,7 @@ class DefaultController extends Controller
             "liked_product_list" => array(
                 array("href" => "http://betshappy.ru")
             ));
-        $response = $this->render('AcmeStoreBundle:Default:personal_area.html.twig',
-                                  $arr);
+        $response = $this->render(self::PERSONAL_AREA_TEMPLATE, $arr);
         return $response;
     }
 
@@ -102,9 +109,8 @@ class DefaultController extends Controller
 
     protected function getProducts() {
         return $this
-            ->get('doctrine_mongodb')
             ->getManager()
-            ->getRepository('AcmeStoreBundle:Product')
+            ->getRepository(self::PRODUCT_REPOSITORY)
             ->findSortedByDate();
     }
 
@@ -115,7 +121,7 @@ class DefaultController extends Controller
      * @return User
      */
     protected function encodePassword($user) {
-        $password = $this->get('security.password_encoder')
+        $password = $this->get(self::PASSWORD_ENCODER)
             ->encodePassword($user, $user->getPassword());
         $user->setPassword($password);
     }
@@ -135,9 +141,9 @@ class DefaultController extends Controller
 
     private function getCategories() {
         return $this
-            ->get('doctrine_mongodb')
+            ->get(self::DOCTRINE)
             ->getManager()
-            ->getRepository('AcmeStoreBundle:Category')
+            ->getRepository(self::CATEGORY_REPOSITORY)
             ->findSortedByName();
     }
 }

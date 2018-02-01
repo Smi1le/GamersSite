@@ -22,6 +22,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CatalogController extends DefaultController
 {
+    const CATALOG_TEMPLATE = 'AcmeStoreBundle:Default:catalog.html.twig';
+    const CATALOG_TITLE = 'Каталог';
+
     /**
      * @Method({"GET"})
      * @Route("/catalog", name="catalog_show")
@@ -34,19 +37,19 @@ class CatalogController extends DefaultController
         if ($request->isMethod($request::METHOD_GET)) {
             $parameter = $request->query->get("s");
         }
+
+        $catalogList = null;
         if ($parameter == "") {
-            return $this->render('AcmeStoreBundle:Default:catalog.html.twig', array(
-                "catalog_title" => "Каталог",
-                'catalog_list' => $this->getProductList(null),
-                'categories' => $this->getListCategories()
-            ));
+            $catalogList = $this->getProductList(null);
         } else {
-            return $this->render('AcmeStoreBundle:Default:catalog.html.twig', array(
-                "catalog_title" => "Каталог",
-                'catalog_list' => $this->getProductList($this->getByEntry($parameter)),
-                'categories' => $this->getListCategories()
-            ));
+            $catalogList = $this->getProductList($this->getByEntry($parameter));
         }
+
+        return $this->render(self::CATALOG_TEMPLATE, array(
+            "catalog_title" => self::CATALOG_TITLE,
+            'catalog_list' => $catalogList,
+            'categories' => $this->getListCategories()
+        ));
 
     }
 
@@ -58,8 +61,8 @@ class CatalogController extends DefaultController
      */
     public function showCatalogForCategory($category) {
         $nameCategory = ucfirst(str_replace('_', ' ', $category));
-        return $this->render('AcmeStoreBundle:Default:catalog.html.twig', array(
-            "catalog_title" => "Каталог",
+        return $this->render(self::CATALOG_TEMPLATE, array(
+            "catalog_title" => self::CATALOG_TITLE,
             'catalog_list' => $this->getProductList($this->getByCategory($nameCategory)),
             'categories' => $this->getListCategories()
         ));
@@ -86,85 +89,17 @@ class CatalogController extends DefaultController
 
     private function getByCategory($category) {
         return $this
-            ->get('doctrine_mongodb')
+            ->get(self::DOCTRINE)
             ->getManager()
-            ->getRepository('AcmeStoreBundle:Product')
+            ->getRepository(self::PRODUCT_REPOSITORY)
             ->getByCategory($category);
     }
 
     private function getByEntry($namePart) {
         return $this
-            ->get('doctrine_mongodb')
+            ->get(self::DOCTRINE)
             ->getManager()
-            ->getRepository('AcmeStoreBundle:Product')
+            ->getRepository(self::PRODUCT_REPOSITORY)
             ->getByEntry($namePart);
     }
-
-    private function gg() {
-        $category1 = new Category();
-        $category1->setNameEn("Highway");
-        $category1->setNameRu("Шоссейные");
-        $this->save($category1);
-
-        $category2 = new Category();
-        $category2->setNameEn("SUVs");
-        $category2->setNameRu("Внедорожники");
-        $this->save($category2);
-
-        $category3 = new Category();
-        $category3->setNameEn("Construction and special machinery");
-        $category3->setNameRu("Строительная и спецтехника");
-        $this->save($category3);
-
-        $category = new Category();
-        $category->setNameEn("Cars with copied bodies");
-        $category->setNameRu("Машинки со скопированными кузовами");
-        $this->save($category);
-
-        $category = new Category();
-        $category->setNameEn("Motorcycles");
-        $category->setNameRu("Мотоциклы");
-        $this->save($category);
-
-        $category = new Category();
-        $category->setNameEn("Models Kyosho Mini-Z");
-        $category->setNameRu("Модели Kyosho Mini-Z");
-        $this->save($category);
-
-        $category = new Category();
-        $category->setNameEn("Trucks and trailers");
-        $category->setNameRu("Грузовики и прицепы");
-        $this->save($category);
-
-        $category = new Category();
-        $category->setNameEn("Crawlers and trophies");
-        $category->setNameRu("Краулеры и трофи");
-        $this->save($category);
-
-        $category = new Category();
-        $category->setNameEn("Buggies");
-        $category->setNameRu("Багги");
-        $this->save($category);
-
-        $category = new Category();
-        $category->setNameEn("Short track corset");
-        $category->setNameRu("Шорт-корс траки");
-        $this->save($category);
-
-        $category = new Category();
-        $category->setNameEn("Rally");
-        $category->setNameRu("Ралли");
-        $this->save($category);
-
-        $category = new Category();
-        $category->setNameEn("Drift");
-        $category->setNameRu("Дрифт");
-        $this->save($category);
-
-        $category = new Category();
-        $category->setNameEn("Monsters");
-        $category->setNameRu("Монстры");
-        $this->save($category);
-    }
-
 }
