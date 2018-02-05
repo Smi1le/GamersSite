@@ -17,6 +17,7 @@ class DefaultController extends Controller
     const COOKIE_TIME_LIMIT = 86400;
     const PERSONAL_ROUTE = 'personal';
     const DOCTRINE = 'doctrine_mongodb';
+    const PHOTOS_DIRECTORY = 'avatars_directory';
     const USER_REPOSITORY = 'AcmeStoreBundle:User';
     const PRODUCT_REPOSITORY = 'AcmeStoreBundle:Product';
     const CATEGORY_REPOSITORY = 'AcmeStoreBundle:Category';

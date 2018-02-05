@@ -1,5 +1,6 @@
 {% extends 'layout.html.twig' %}
 
+{% block title %}Личный кабинет{% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('js/jquery-3.2.1.min.js')}}"></script>
@@ -9,7 +10,6 @@
 
 {% block body %}
     <div class="personal-container">
-
         <div class="col-md-10 personal-area">
             <div class="user-photo col-md-4">
                 {% if (avatar) %}
@@ -17,7 +17,6 @@
                 {% else %}
                     <img src="/images/anon.png"/>
                 {% endif %}
-                    {#<input type="file" id="avatar-button" accept="image/*" value="Изменить аватар"/>#}
                 <input type="submit" id="avatar-button" value="Изменить аватар"/>
             </div>
             <div class="user-info col-md-8 row">
@@ -38,29 +37,26 @@
 
             </div>
         </div>
-        <div class="button-area col-md-1">
+        <div class="button-area col-md-2">
             <input type="submit" value="Выйти" class="exit-button" id="exit-button"/>
-            <input type="submit" value="Изменить" class="edit-button"/>
         </div>
 
         <div class="user-liked col-md-12">
             <h3>Понравившиеся статьи</h3>
             {% for element in liked_product_list %}
-                {#<div class="liked-product">#}
-                    {#<a href="{{ product.href }}"></a>#}
-                {#</div>#}
                 {% include "car_element.html.twig" %}
             {% endfor %}
-            {#{% for element in popular_list %}#}
-
-            {#{% endfor %}#}
         </div>
     </div>
-
-    <input type="file" id="change-button" accept="image/*" value="Изменить аватар"/>
-    <input type="submit" id="avatar-accept" value="Поменять"/>
-
+    <div id="upload-form">
+        {{ form_start(form, { 'action': path('personal'), 'method': 'post', 'attr': {} }) }}
+        {{ form_errors(form.path) }}
+        {{ form_widget(form.path) }}
+        <input type="submit" id="avatar-accept" value="Поменять"/>
+        {{ form_end(form) }}
+    </div>
     <div id="layer">
+
 
     </div>
 {% endblock %}

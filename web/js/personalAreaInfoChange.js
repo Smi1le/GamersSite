@@ -15,7 +15,7 @@ $(document).ready(function() {
     });
 
     $("#avatar-button").click(function() {
-        $("#change-button").show();
+        $("#upload-form").show();
         $("#avatar-accept").show();
         $(".main-section").css('z-index',0);
         $('#layer').fadeIn('fast');
@@ -23,10 +23,10 @@ $(document).ready(function() {
 
     $("#layer").click(function(){
         $(this).fadeOut('fast');
-        $("#change-button").hide();
+        $("#upload-form").hide();
         $("#avatar-accept").hide();
     });
 
-    $("#change-button").hide();
+    $("#upload-form").hide();
     $("#avatar-accept").hide();
 });

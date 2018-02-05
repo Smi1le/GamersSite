@@ -24,7 +24,6 @@ class ProductController extends DefaultController
     const FORM_FACTORY = 'form.factory';
     const DATE_FORMAT = 'Y-m-d H:i:s';
     const CREATE_PRODUCT_TEMPLATE = 'AcmeStoreBundle:Default:create_product.html.twig';
-    const PHOTOS_DIRECTORY = 'photos_directory';
 
     /**
      * @Method("POST")

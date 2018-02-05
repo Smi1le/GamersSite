@@ -7,7 +7,7 @@
 {% include "base/footer.html.twig" %}
 #}
 
-{% block title %}{{catalog_title}}{% endblock %}
+{% block title %}{{ product_name }}{% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('js/jquery-3.2.1.min.js')}}"></script>
@@ -51,7 +51,7 @@
                 <div class="container-product-links">
                     {% for characteristic in product_links %}
                         <div class="product-links">
-                            <a href="{{characteristic}}">ajkhsdhjagjdsh</a>
+                            <a href="{{characteristic}}">{{characteristic}}</a>
                         </div>
                     {% endfor %}
                 </div>

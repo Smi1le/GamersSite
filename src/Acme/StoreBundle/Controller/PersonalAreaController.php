@@ -16,9 +16,12 @@ use Acme\StoreBundle\Document\User;
 use Acme\StoreBundle\Form\LoginType;
 use Acme\StoreBundle\Form\RegistrationType;
 use Acme\StoreBundle\Entity\RegistrationTask;
+use Acme\StoreBundle\Form\UploadPersonalPhoto;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Acme\StoreBundle\Controller;
+use Symfony\Component\HttpFoundation\File\File;
+use Acme\StoreBundle\Document\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -43,11 +46,36 @@ class PersonalAreaController extends DefaultController
      */
     public function personalArea(Request $request)
     {
+        $file = new UploadedFile();
+        $form = $this->createForm(UploadPersonalPhoto::class, $file);
         $user = $this->getUserByRequest($request);
+        if ($request->isMethod($request::METHOD_POST)) {
+            echo "122222222222222222222222222222";
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                echo "</br>122222222222222222222222222222";
+                $this->uploadPhoto($file, $user);
+            }
+        }
         if ($user) {
-            return $this->preparePersonalAreaContent($user);
+            return $this->preparePersonalAreaContent($user, $form->createView());
         }
         return $this->redirectToRoute(self::HOMEPAGE);
+    }
+
+    private function uploadPhoto($fileForm, $user) {
+        $file = $fileForm->getPath();
+        echo $file;
+        $fileName = md5(uniqid()). '.'. $file->guessExtension();
+        $file->move(
+            $this->getParameter(self::PHOTOS_DIRECTORY),
+            $fileName
+        );
+        echo $fileName;
+        $user->setAvatar($fileName);
+        $this->save($user);
+        print_r($user);
+//        array_push($out/Photos, $this->getParameter(self::PHOTOS_DIRECTORY). "\\". $fileName);
     }
 
     /**
@@ -97,13 +125,14 @@ class PersonalAreaController extends DefaultController
      * @param $user User
      * @return Response Response
      */
-    private function preparePersonalAreaContent($user) {
+    private function preparePersonalAreaContent($user, $formView) {
         $arr = array(
+            'form' => $formView,
             "login" => $user->getLogin(),
             "email" => $user->getEmail(),
             'categories' => $this->getListCategories(),
             "nickname" => $user->getNickname(),
-            'avatar' => $user->getAvatar(),
+            'avatar' => $this->getParameter(self::PHOTOS_DIRECTORY) . '/' . $user->getAvatar(),
             "liked_product_list" => $this->getProductListWhichUserLike($user));
 
         return $this->render(self::PERSONAL_AREA_TEMPLATE, $arr);
@@ -120,6 +149,17 @@ class PersonalAreaController extends DefaultController
             array_push($listProducts, $this->prepareProductBeforeImpact($value));
         }
         return $listProducts;
+    }
+
+    /**
+     * @Method("PUT")
+     * @param Request $request
+     * @Route("/personal/uploadPhoto", name="uploadPhoto")
+     * defaults={"filename"="...."}, name="photo_path")
+     * @return mixed
+     */
+    public function loadPhoto(Request $request) {
+        return $this->personalArea($request);
     }
 
     /**
