@@ -61,12 +61,23 @@ class MainController extends DefaultController
                 'caption' => $element->getName(),
                 'description' => $element->getShortDescription(),
                 'characteristics' => $this->getCharacteristics($element->getCharacteristics()),
-                'photo_path' => 'http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg',
+                'photo_path' => $this->preparePhotos($element->getPhotos()),
                 'link' => '/product/' . $element->getId()
             );
             array_push($newList, $product);
         }
         return $newList;
+    }
+
+    private function preparePhotos($photos) {
+        $photoLink = "";
+        if (count($photos) > 0) {
+            foreach ($photos as $key => $value) {
+                $photoLink = '/' . $value;
+                break;
+            }
+        }
+        return $photoLink;
     }
 
     /**

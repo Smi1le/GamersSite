@@ -2,10 +2,6 @@
 
 {% block title %}Регистрация{% endblock %}
 
-{% block jsScripts %}
-    <script src="js/switch.js"></script>
-{% endblock %}
-
 {% block stylesheetsInclude %}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/registrationForm.css') }}" />
 {% endblock  %}
@@ -44,7 +40,7 @@
                 <input type="submit" value="{{registration_title}}" class="registration_button col-md-offset-6 col-md-6"
                        name="button_form_lk" />
                 {{  form_end(form) }}
-                <a><div class="registration-message col-md-12" id="to-auth2"><h4>Есть аккаунт? Вход</h4></div></a>
+                <a href="/login"><div class="registration-message col-md-12" id="to-auth2"><h4>Есть аккаунт? Вход</h4></div></a>
             </div>
             <div class="photos-block col-md-6">
                 <div class="col-md-offset-5 col-md-6">

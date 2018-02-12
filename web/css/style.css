@@ -77,6 +77,50 @@ footer {
     padding: 0 0 0 0;
 }
 
+.main-container .content {
+    min-height: 600px;
+}
+
+.add-comments {
+    margin-top: 28px;
+}
+
+.add-comments textarea {
+    height: 150px;
+    border: 2px solid grey;
+    border-radius: 10px;
+    text-indent: 20px;
+    font-size: 17px;
+}
+
+.add-comments input[type="submit"] {
+    font-size: 18px;
+    height: 30px;
+    border: 2px solid darkgreen;
+    border-radius: 11px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.comment {
+    border-bottom: 1px solid grey;
+    border-bottom-right-radius: 10px;
+    margin-top: 23px;
+}
+
+.comment-date {
+    text-align: right;
+    font-style: italic;
+}
+
+.comment-message {
+    margin-top: 10px;
+}
+
+.grey-text {
+    color: #9a9a9a;
+}
+
 .sidebar {
     padding: 0 0 0 0;
     height: 700px;
@@ -108,7 +152,6 @@ footer {
 }
 
 .content .recent-additions {
-    margin-top: 10px;
     padding-bottom: 5px;
 }
 

@@ -32,7 +32,6 @@ class PersonalAreaController extends DefaultController
 {
 
     const SECURITY_FIREWALL = 'main';
-    const HOMEPAGE = 'default_show';
     const PERSONAL = 'personal';
     const EXIT_SUCCESS = 'exit';
     const EXIT_FAILURE = 'not exit';
@@ -50,10 +49,8 @@ class PersonalAreaController extends DefaultController
         $form = $this->createForm(UploadPersonalPhoto::class, $file);
         $user = $this->getUserByRequest($request);
         if ($request->isMethod($request::METHOD_POST)) {
-            echo "122222222222222222222222222222";
             $form->handleRequest($request);
             if ($form->isValid()) {
-                echo "</br>122222222222222222222222222222";
                 $this->uploadPhoto($file, $user);
             }
         }
@@ -65,17 +62,13 @@ class PersonalAreaController extends DefaultController
 
     private function uploadPhoto($fileForm, $user) {
         $file = $fileForm->getPath();
-        echo $file;
         $fileName = md5(uniqid()). '.'. $file->guessExtension();
         $file->move(
             $this->getParameter(self::PHOTOS_DIRECTORY),
             $fileName
         );
-        echo $fileName;
         $user->setAvatar($fileName);
         $this->save($user);
-        print_r($user);
-//        array_push($out/Photos, $this->getParameter(self::PHOTOS_DIRECTORY). "\\". $fileName);
     }
 
     /**
@@ -152,17 +145,6 @@ class PersonalAreaController extends DefaultController
     }
 
     /**
-     * @Method("PUT")
-     * @param Request $request
-     * @Route("/personal/uploadPhoto", name="uploadPhoto")
-     * defaults={"filename"="...."}, name="photo_path")
-     * @return mixed
-     */
-    public function loadPhoto(Request $request) {
-        return $this->personalArea($request);
-    }
-
-    /**
      * @param User $user
      * @return mixed
      */
@@ -177,8 +159,11 @@ class PersonalAreaController extends DefaultController
      * @return array
      */
     private function prepareProductBeforeImpact($likedRecord) {
-        $products = $this->getManager()->getRepository(self::PRODUCT_REPOSITORY)
+        $products = $this
+            ->getManager()
+            ->getRepository(self::PRODUCT_REPOSITORY)
             ->findBy(['_id' => $likedRecord->getProductId()]);
+
         $product = array_shift($products);
         $item['page_link'] = $this->createPathToProduct($product);
         $item['photo_path'] = $this->createPathToPreviewProduct($product);

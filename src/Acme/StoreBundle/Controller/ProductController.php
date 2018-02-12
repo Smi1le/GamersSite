@@ -2,6 +2,7 @@
 
 namespace Acme\StoreBundle\Controller;
 
+use Acme\StoreBundle\Document\Comment;
 use Acme\StoreBundle\Document\LikedRecord;
 use Acme\StoreBundle\Document\Product;
 use Acme\StoreBundle\Document\User;
@@ -45,6 +46,41 @@ class ProductController extends DefaultController
     }
 
     /**
+     * @Method("POST")
+     * @param Request $request
+     * @Route("/product/addComment", name="addComment")
+     * @return Response
+     */
+    public function addComment(Request $request) {
+
+        $user = $this->getUserByRequest($request);
+        if (!$user) {
+            return new Response(self::USER_NOT_LOGGED_IN);
+        }
+        $comment = $this->createComment($request, $user);
+        $this->save($comment);
+        return new Response(self::SUCCESS);
+    }
+
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return Comment
+     */
+    private function createComment($request, $user) {
+        $message = $request->get('comment');
+        $productId = $request->get('productId');
+
+        $comment = new Comment();
+        $comment->setProductId($productId);
+        $comment->setUserId($user->getId());
+        $comment->setMessage($message);
+        $comment->setDate(new \MongoDate(strtotime(date(self::DATE_FORMAT))));
+        return $comment;
+    }
+
+
+    /**
      * @param $id
      * @param $user User
      */
@@ -82,7 +118,6 @@ class ProductController extends DefaultController
      */
     public function productPage(Request $request, $productId)
     {
-//        echo $this->getRequest();
         $product = $this->getById($productId);
         $photos = $product->getPhotos();
         $photoLink = "";
@@ -103,10 +138,48 @@ class ProductController extends DefaultController
             "product_characteristics" => $this->processCharacteristicsListBeforeRendering($product),
             "product_links" => $product->getAddressList(),
             "product_id" => $productId,
-            'is_liked' => $this->isMarked($request, $productId)
+            'is_liked' => $this->isMarked($request, $productId),
+            'comments_list' => $this->prepareComments($productId),
+            'is_logging' => $this->isUserAuthorization($request)
         );
         return $this->render(self::PRODUCT_TEMPLATE, $arr);
     }
+
+    /**
+     * @param $request
+     * @return boolean
+     */
+    private function isUserAuthorization ($request) {
+        return $this->getUserByRequest($request) ? true : false;
+    }
+
+    /**
+     * @param $productId
+     * @return mixed
+     */
+    private function prepareComments($productId) {
+        $comments =  $this
+            ->getManager()
+            ->getRepository(self::COMMENT_REPOSITORY)
+            ->getByProductId($productId);
+
+        $listComments = [];
+        foreach ($comments as $value) {
+            $users = $this->getManager()
+                ->getRepository(self::USER_REPOSITORY)
+                ->findBy(["_id" => $value->getUserId()]);
+            $user = $users[0];
+            $commentBody = [
+                'user_avatar' => '/' . $this->getParameter(self::PHOTOS_DIRECTORY) . '/' . $user->getAvatar(),
+                'user_nickname' => $user->getNickname(),
+                'message' => $value->getMessage(),
+                'date' => $value->getDate()->format(self::DATE_FORMAT)
+            ];
+            array_push($listComments, $commentBody);
+        }
+        return $listComments;
+    }
+
 
     private function isMarked($request, $productId) {
         $user = $this->getUserByRequest($request);
@@ -138,6 +211,9 @@ class ProductController extends DefaultController
      * @return Response
      */
     public function createProductAction(Request $request) {
+        if (!$this->getUserByRequest($request)) {
+            return $this->redirectToRoute(self::HOMEPAGE);
+        }
         $product = new Product();
         date_default_timezone_set(self::UTC);
         $categories = $this->getAllCategories();

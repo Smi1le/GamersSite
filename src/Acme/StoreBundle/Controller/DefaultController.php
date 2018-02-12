@@ -14,6 +14,7 @@ class DefaultController extends Controller
 {
     const SUCCESS = 'OK';
     const USER_ID = 'UserId';
+    const HOMEPAGE = 'default_show';
     const COOKIE_TIME_LIMIT = 86400;
     const PERSONAL_ROUTE = 'personal';
     const DOCTRINE = 'doctrine_mongodb';
@@ -22,6 +23,7 @@ class DefaultController extends Controller
     const PRODUCT_REPOSITORY = 'AcmeStoreBundle:Product';
     const CATEGORY_REPOSITORY = 'AcmeStoreBundle:Category';
     const LIKED_PRODUCT_REPOSITORY = 'AcmeStoreBundle:LikedRecord';
+    const COMMENT_REPOSITORY = 'AcmeStoreBundle:Comment';
     const PASSWORD_ENCODER = 'security.password_encoder';
     const PERSONAL_AREA_TEMPLATE = 'AcmeStoreBundle:Default:personal_area.html.twig';
 

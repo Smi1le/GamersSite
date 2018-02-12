@@ -22,19 +22,19 @@
     {{ form_errors(form) }}
     {{ form_row(form._token) }}
 
-    <div class="field-container">
+    <div class="field-container green-border">
         {{ form_row(form.name, {'div': {'attr': {'class': 'field-container'}}}) }}
     </div>
-    <div class="field-container">
+    <div class="field-container green-border">
         {{ form_row(form.description) }}
     </div>
-    <div class="field-container">
+    <div class="field-container green-border">
         {{ form_row(form.shortDescription) }}
     </div>
-    <div class="field-container">
+    <div class="field-container green-border">
         {{ form_row(form.category) }}
     </div>
-    <div class="field-container">
+    <div class="field-container green-border">
         {{ form_label(form.characteristics) }}
         <a href="#" id="add-another-characteristic">Добавить</a>
 
@@ -55,7 +55,7 @@
         </ul>
     </div>
 
-    <div class="field-container">
+    <div class="field-container green-border">
         {{ form_label(form.photos) }}
         <a href="#" id="add-photo">Добавить</a>
         <ul id="photo-fields-list"
@@ -69,7 +69,7 @@
         </ul>
     </div>
 
-    <div class="field-container">
+    <div class="field-container green-border">
         {{ form_label(form.addressList) }}
         <a href="#" id="add-link">Добавить</a>
         <ul id="link-fields-list"
@@ -83,7 +83,7 @@
         </ul>
     </div>
 
-    <input type="submit" value="Submit" id="button-add"/>
+    <input type="submit" value="Добавить" id="button-add"/>
 
 {% endblock %}
 

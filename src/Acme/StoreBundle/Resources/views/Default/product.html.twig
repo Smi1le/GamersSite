@@ -12,6 +12,7 @@
 {% block javascripts %}
     <script src="{{ asset('js/jquery-3.2.1.min.js')}}"></script>
     <script src="{{ asset('js/markedAsLiked.js')}}"></script>
+    <script src="{{ asset('js/addComment.js')}}"></script>
 {% endblock %}
 
 {% extends 'layout.html.twig' %}
@@ -56,6 +57,36 @@
                     {% endfor %}
                 </div>
             </div>
+
+            <div class="comments row col-md-11 col-md-offset-1">
+                <h3>Комментарии</h3>
+                <div class="list-comments col-md-12">
+                    {% for comment in comments_list %}
+                        <div class="comment col-md-12">
+                            {% if (comment.user_avatar) %}
+                                <img src="{{ comment.user_avatar }}" class="col-md-2"/>
+                            {% else %}
+                                <img src="/images/anon.png" class="col-md-2"/>
+                            {% endif %}
+                            <p class="col-md-6"><strong>{{ comment.user_nickname }}</strong></p>
+                            <p class="col-md-4 comment-date grey-text" >{{ comment.date }}</p>
+                            <p class="col-md-10 grey-text comment-message">{{ comment.message }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if (is_logging) %}
+                    <div class="add-comments col-md-12">
+                        <h4>Добавить комментарий</h4>
+                        <textarea id="comment" class="col-md-12" rows="6" cols="100"></textarea>
+                        <input type="submit" id="addComment" class="col-md-offset-8 col-md-4"/>
+                    </div>
+                {% else %}
+                    <div class="not-auth-add-comment col-md-12">
+                        <h4>Для того чтобы оставлять комментарии вам нужно <a href="/login">авторизоваться</a></h4>
+                    </div>
+                {% endif %}
+            </div>
+
         </div>
     </div>
 {% endblock %}
