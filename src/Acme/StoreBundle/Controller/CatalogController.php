@@ -58,7 +58,6 @@ class CatalogController extends DefaultController
         if (strcasecmp('suvs', $nameCategory) == 0) {
             $nameCategory = 'SUVs';
         }
-        echo $nameCategory;
         return $this->render(self::CATALOG_TEMPLATE, array(
             "catalog_title" => self::CATALOG_TITLE,
             'catalog_list' => $this->getProductList($this->getByCategory($nameCategory)),
