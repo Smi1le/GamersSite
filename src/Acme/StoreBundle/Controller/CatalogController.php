@@ -42,7 +42,7 @@ class CatalogController extends DefaultController
             "catalog_title" => self::CATALOG_TITLE,
             'catalog_list' => $catalogList,
             'categories' => $this->getListCategories(),
-            'title' => strcasecmp('', $parameter) == 0 ? '' : 'Поиск по \"' . $parameter . '\"'
+            'title' => strcasecmp('', $parameter) == 0 ? '' : 'Поиск по "' . $parameter . '"'
         ));
 
     }
