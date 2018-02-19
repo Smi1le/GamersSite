@@ -2,18 +2,6 @@
 
 {% block body %}
     <div class="content">
-        {#<div class="popular green-border">#}
-            {#<div class="popular-title">#}
-                {#<div class="badge"></div>#}
-                {#<p>{{popular_title}}</p>#}
-            {#</div>#}
-            {#<div class="elements-container">#}
-                {#<div class="col-md-offset-1 "></div>#}
-                {#{% for element in popular_list %}#}
-                    {#{% include "car_element.html.twig" %}#}
-                {#{% endfor %}#}
-            {#</div>#}
-        {#</div>#}
         <div class="recent-additions green-border">
             <div class="popular-title">
                 <div class="badge"></div>
@@ -24,7 +12,11 @@
                     <div class="description row">
                         <div class="photo col-md-2" >
                             <a href="{{ element.link }}">
-                                <img src="{{element.photo_path}}" />
+                                {% if (element.photo_path) %}
+                                    <img src="{{ element.photo_path }}" />
+                                {% else %}
+                                    <img src="/images/noPhoto.png"/>
+                                {% endif %}
                             </a>
                         </div>
                         <div class="description-container col-md-9">
@@ -39,7 +31,7 @@
                                 </div>
                                 <div class="characteristics-cars">
                                     {% for characteristic in element.characteristics %}
-                                        <div class="characteristic-field">
+                                        <div class="characteristic-field col-md-12">
                                             {{characteristic.name}} : {{characteristic.value}}
                                         </div>
                                     {% endfor %}

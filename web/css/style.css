@@ -9,6 +9,11 @@ body {
     white-space: nowrap;
 }
 
+.caption {
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
 .caption h1 {
     margin-top: 0px;
 }
@@ -155,6 +160,20 @@ footer {
     padding-bottom: 5px;
 }
 
+.cross {
+    background-image: url(../images/cross.png);
+    width: 30px;
+    height: 30px;
+    background-size: 30px;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 80%;
+}
+
+.cross:hover {
+    outline: 2px solid red;
+}
+
 .sidebar-element {
     font-size: 18px;
     font-family: cursive;
@@ -168,7 +187,7 @@ footer {
 
 .photo {
     height: 200px;
-    border-radius: 25px;
+    border-radius: 25px 0px 0px 25px;
     background-color: #7cc573;
     padding: 0 2px;
 }
@@ -190,9 +209,10 @@ footer {
 }
 
 .description-container {
-    margin-top: 25px;
+    /* margin-top: 25px; */
     min-height: 150px;
-    max-height: 160px;
+    /* max-height: 160px; */
+    height: 200px;
     border-radius: 0px 10px 10px 0px;
     background-color: #c9ff9f;
 }
@@ -206,9 +226,17 @@ footer {
     text-align: center;
 }
 
+.content .element-name {
+    position: absolute;
+    bottom: 10px;
+}
+
+.popular-element {height: 200px; }
+
+
 .popular-element img {
     width: 120%;
-    max-height: 100px;
+    max-height: 150px;
 }
 
 .popular-title p {
@@ -224,6 +252,10 @@ footer {
 
 .elements-container {
     padding-top: 15px;
+}
+
+.elements-container h4 {
+    color: #0300ce;
 }
 
 .cursor-pointer {
@@ -329,12 +361,25 @@ footer {
 
 .popular-element .img {
     width: 100%;
-    max-height: 100px;
+    max-height: 150px;
 }
 
 .product-name {
     display: inline-block;
     margin-left: 9px;
+}
+
+.product-name input[type="text"] {
+    font-size: 22px;
+}
+
+.not-padding {
+    padding: 0;
+}
+
+.product-description textarea {
+    width: 100%;
+    height: 200px;
 }
 
 .product-name-section{
@@ -374,7 +419,7 @@ footer {
     margin-top: 10px;
 }
 
-.user-info input {
+.user-info input, #button-add {
     margin-left: 10px;
     color: black;
     margin-top: 0px;
@@ -433,7 +478,7 @@ footer {
 }
 
 .user-liked {
-    min-height: 200px;
+    min-height: 300px;
     color: black;
     padding: 0;
     margin-top: 20px;
@@ -448,15 +493,22 @@ footer {
     font-weight: bold;
 }
 
+.user-liked .elements-list {
+    white-space: nowrap;
+    overflow-y: hidden;
+}
+
 .user-liked .popular-element {
     width: 220px;
-    height: 120px;
-    margin-top: 26px;
+    height: 200px;
+    display: inline-block;
+    white-space: normal;
 }
 
 .user-liked .popular-image img {
-    width: 100%;
-    height: 100%;
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .user-liked .element-name {
@@ -487,6 +539,10 @@ footer {
     padding: 0 0 0 0;
 }
 
+.container {
+    margin-bottom: 20px;
+}
+
 .marked {
     background-image: url(../images/marked.png);
 }
@@ -503,6 +559,15 @@ footer {
     height: 50px;
     width: 50px;
 }
+
+#delete-product {
+    border: 2px solid green;
+    border-radius: 10px;
+    height: 28px;
+    font-size: 20px;
+    margin-left: 0px;
+}
+
 
 .marker {
     margin-left: 28px;

@@ -13,19 +13,27 @@
         <div class="content green-border">
             <div class="popular-title">
                 <div class="badge"></div>
-                <p>{{catalog_title}}</p>
+                <p>{{catalog_title}} - {{ title }}</p>
             </div>
             <div class="elements-container col-md-12">
-                {% for element in catalog_list %}
-                    <div class="popular-element col-md-3">
-                        <a href="{{element.page_link}}">
-                            <div class="popular-image cursor-pointer">
-                                <img class="img" src="{{element.photo_path}}" />
-                            </div>
-                        </a>
-                        <div class="element-name cursor-pointer"><a href="{{element.page_link}}"><p>{{element.name}}</p></a></div>
-                    </div>
-                {% endfor %}
+                {% if (catalog_list) %}
+                    {% for element in catalog_list %}
+                        <div class="popular-element col-md-3">
+                            <a href="{{element.page_link}}">
+                                <div class="popular-image cursor-pointer">
+                                    {% if (element.photo_path) %}
+                                        <img class="img" src="{{ element.photo_path }}" />
+                                    {% else %}
+                                        <img class="img" src="/images/noPhoto.png" />
+                                    {% endif %}
+                                </div>
+                            </a>
+                            <div class="element-name cursor-pointer"><a href="{{element.page_link}}"><p>{{element.name}}</p></a></div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h4>Пока не было добавлено ни одной карточки</h4>
+                {% endif %}
             </div>
         </div>
     </div>

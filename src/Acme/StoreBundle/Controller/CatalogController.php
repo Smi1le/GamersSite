@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Тима
- * Date: 25.11.2017
- * Time: 16:57
- */
-
 namespace Acme\StoreBundle\Controller;
 
 
@@ -48,7 +41,8 @@ class CatalogController extends DefaultController
         return $this->render(self::CATALOG_TEMPLATE, array(
             "catalog_title" => self::CATALOG_TITLE,
             'catalog_list' => $catalogList,
-            'categories' => $this->getListCategories()
+            'categories' => $this->getListCategories(),
+            'title' => strcasecmp('', $parameter) == 0 ? '' : 'Поиск по \"' . $parameter . '\"'
         ));
 
     }
@@ -61,10 +55,16 @@ class CatalogController extends DefaultController
      */
     public function showCatalogForCategory($category) {
         $nameCategory = ucfirst(str_replace('_', ' ', $category));
+        if (strcasecmp('suvs', $nameCategory) == 0) {
+            $nameCategory = 'SUVs';
+        }
+        echo $nameCategory;
         return $this->render(self::CATALOG_TEMPLATE, array(
             "catalog_title" => self::CATALOG_TITLE,
             'catalog_list' => $this->getProductList($this->getByCategory($nameCategory)),
-            'categories' => $this->getListCategories()
+            'categories' => $this->getListCategories(),
+            'title' => $this->getManager()->getRepository(self::CATEGORY_REPOSITORY)
+                ->findBy(['nameEn' => $nameCategory])[0]->getNameRu()
         ));
     }
 
@@ -79,7 +79,7 @@ class CatalogController extends DefaultController
             $product = array(
                 'name' => $element->getName(),
                 'page_link' => '/product/' . $element->getId(),
-                'photo_path' => '/' . $photo
+                'photo_path' => $photo == null ? '' : '/' . $photo
             );
             array_push($newList, $product);
         }

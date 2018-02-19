@@ -3,6 +3,7 @@
 namespace Acme\StoreBundle\Controller;
 
 use Acme\StoreBundle\Document\Comment;
+use Acme\StoreBundle\Document\CreatedProduct;
 use Acme\StoreBundle\Document\LikedRecord;
 use Acme\StoreBundle\Document\Product;
 use Acme\StoreBundle\Document\User;
@@ -20,6 +21,7 @@ class ProductController extends DefaultController
     const USER_NOT_LOGGED_IN = 'USER_NOT_LOGGED_IN';
     const IS_LIKED = 'true';
     const ARRAY_TYPE = 'array';
+    const PRODUCT_ROUTE = '/product';
     const PRODUCT_TEMPLATE = 'AcmeStoreBundle:Default:product.html.twig';
     const UTC = 'UTC';
     const FORM_FACTORY = 'form.factory';
@@ -70,7 +72,6 @@ class ProductController extends DefaultController
     private function createComment($request, $user) {
         $message = $request->get('comment');
         $productId = $request->get('productId');
-
         $comment = new Comment();
         $comment->setProductId($productId);
         $comment->setUserId($user->getId());
@@ -81,7 +82,7 @@ class ProductController extends DefaultController
 
 
     /**
-     * @param $id
+     * @param $productId
      * @param $user User
      */
     private function markedLiked($productId, $user) {
@@ -102,6 +103,53 @@ class ProductController extends DefaultController
         }
     }
 
+    /**
+     * @Method({"POST"})
+     * @param $productId
+     * @Route("/product/delete/{productId}", name="delete_product")
+     * @return mixed
+     */
+    public function deleteProductInfo($productId) {
+        $manager = $this->getManager();
+
+        $product = $this->getManager()->getRepository(self::PRODUCT_REPOSITORY)->findOneBy(["_id" => $productId]);
+        $this->removeElement($manager, $product);
+
+        $likedRecords = $this->getManager()->getRepository(self::LIKED_PRODUCT_REPOSITORY)->findOneBy(["productId" => $productId]);
+        $this->removeElement($manager, $likedRecords);
+
+        $comments = $this->getManager()->getRepository(self::COMMENT_REPOSITORY)->findOneBy(["productId" => $productId]);
+        $this->removeElement($manager, $comments);
+
+        $createdProductRecords = $this->getManager()->getRepository(self::CREACTED_PRODUCT_REPOSITORY)->findOneBy(["productId" => $productId]);
+        $this->removeElement($manager, $createdProductRecords);
+
+        $manager->flush();
+        return new Response(self::SUCCESS);
+    }
+
+    private function removeElement($manager, $element) {
+        if ($element != null) {
+            $manager->remove($element);
+        }
+    }
+
+    /**
+     * @Method({"POST"})
+     * @param Request $request
+     * @Route("/product/acceptChanges/{productId}", name="accept_changes")
+     * @return mixed
+     */
+    public function accept(Request $request, $productId) {
+        $product = $this->getById($productId);
+        $newProductName = $request->get('productName');
+        $newProductDescription = $request->get('productDescription');
+        $product->setDescription($newProductDescription);
+        $product->setName($newProductName);
+        $this->save($product);
+        return new Response(self::SUCCESS);
+    }
+
     private function getRecord($productId, $userId) {
         return $this->get(self::DOCTRINE)
             ->getManager()
@@ -109,15 +157,20 @@ class ProductController extends DefaultController
             ->getProductBy($productId, $userId);
     }
 
-
     /**
      * @Method({"GET"})
      * @param Request $request
+     * @param $productId
      * @Route("/product/{productId}", name="product_show")
+     * defaults={"ch"="...."}, name="search_parameter")
      * @return Response
      */
     public function productPage(Request $request, $productId)
     {
+        $parameter = false;
+        if ($request->isMethod($request::METHOD_GET)) {
+            $parameter = $request->query->get("ch");
+        }
         $product = $this->getById($productId);
         $photos = $product->getPhotos();
         $photoLink = "";
@@ -127,6 +180,11 @@ class ProductController extends DefaultController
                 break;
             }
         }
+        $record = $this->getRecordAboutProduct($productId);
+        $user = $this->getUserByRequest($request);
+        $isCanChanges = $user &&
+            $record &&
+            (strcasecmp($record->getUserId(), $user->getId()) == 0);
         $arr = array(
             "title_name" => "My New Page",
             "Placeholder_search" => "Поиск",
@@ -140,9 +198,19 @@ class ProductController extends DefaultController
             "product_id" => $productId,
             'is_liked' => $this->isMarked($request, $productId),
             'comments_list' => $this->prepareComments($productId),
-            'is_logging' => $this->isUserAuthorization($request)
+            'is_logging' => $this->isUserAuthorization($request),
+            'is_changes' => $parameter,
+            'is_can_change' => $isCanChanges
         );
         return $this->render(self::PRODUCT_TEMPLATE, $arr);
+    }
+
+    private function getRecordAboutProduct($productId) {
+        $record = $this
+            ->getManager()
+            ->getRepository(self::CREACTED_PRODUCT_REPOSITORY)
+            ->findBy(["productId" => $productId]);
+        return array_shift($record);
     }
 
     /**
@@ -170,7 +238,8 @@ class ProductController extends DefaultController
                 ->findBy(["_id" => $value->getUserId()]);
             $user = $users[0];
             $commentBody = [
-                'user_avatar' => '/' . $this->getParameter(self::PHOTOS_DIRECTORY) . '/' . $user->getAvatar(),
+                'user_avatar' => $user->getAvatar() == null ? "" :
+                    '/' . $this->getParameter(self::PHOTOS_DIRECTORY) . '/' . $user->getAvatar(),
                 'user_nickname' => $user->getNickname(),
                 'message' => $value->getMessage(),
                 'date' => $value->getDate()->format(self::DATE_FORMAT)
@@ -211,7 +280,8 @@ class ProductController extends DefaultController
      * @return Response
      */
     public function createProductAction(Request $request) {
-        if (!$this->getUserByRequest($request)) {
+        $user = $this->getUserByRequest($request);
+        if (!$user) {
             return $this->redirectToRoute(self::HOMEPAGE);
         }
         $product = new Product();
@@ -223,16 +293,27 @@ class ProductController extends DefaultController
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                print_r(get_object_vars($product));
                 $this->processCharacteristicsList($product);
                 $this->uploadFiles($product);
                 $product->setDate(new \MongoDate(strtotime(date(self::DATE_FORMAT))));
                 $this->save($product);
-                return new Response("#". $product->getId());
+                $this->createRecord($user->getId(), $product->getId());
+                return $this->redirectToRoute(self::PERSONAL_ROUTE);
             }
         }
         $arr = array('form' => $form->createView());
         return $this->render(self::CREATE_PRODUCT_TEMPLATE, $arr);
+    }
+
+    /**
+     * @param $userId
+     * @param $productId
+     */
+    private function createRecord($userId, $productId) {
+        $record = new CreatedProduct();
+        $record->setUserId($userId);
+        $record->setProductId($productId);
+        $this->save($record);
     }
 
     /**
@@ -243,16 +324,13 @@ class ProductController extends DefaultController
         $outPhotos = array();
         for ($i = 0; $i < count($photos); $i++){
             $file = $photos[$i];
-            echo $file;
             $fileName = md5(uniqid()). '.'. $file->guessExtension();
             $file->move(
                 $this->getParameter(self::PHOTOS_DIRECTORY),
                 $fileName
             );
-            echo $fileName;
             array_push($outPhotos, $this->getParameter(self::PHOTOS_DIRECTORY). "\\". $fileName);
         }
-        print_r($outPhotos);
         $product->setPhotos($outPhotos);
     }
 

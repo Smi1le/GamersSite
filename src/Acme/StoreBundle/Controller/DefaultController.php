@@ -20,6 +20,7 @@ class DefaultController extends Controller
     const DOCTRINE = 'doctrine_mongodb';
     const PHOTOS_DIRECTORY = 'avatars_directory';
     const USER_REPOSITORY = 'AcmeStoreBundle:User';
+    const CREACTED_PRODUCT_REPOSITORY = 'AcmeStoreBundle:CreatedProduct';
     const PRODUCT_REPOSITORY = 'AcmeStoreBundle:Product';
     const CATEGORY_REPOSITORY = 'AcmeStoreBundle:Category';
     const LIKED_PRODUCT_REPOSITORY = 'AcmeStoreBundle:LikedRecord';

@@ -42,6 +42,11 @@ class Product
     private $description;
 
     /**
+     * @MongoDB\Field(type="string", name="userId")
+     */
+    private $userId;
+
+    /**
      * @MongoDB\Field(type="collection")
      *
      */
@@ -55,7 +60,7 @@ class Product
     /**
      * @MongoDB\Field(type="string")
      * @Assert\Length(
-     *     max = 100,
+     *     max = 220,
      *     maxMessage = "Your first name cannot be longer than {{ limit }} characters"
      *     )
      */
@@ -135,6 +140,29 @@ class Product
     public function getDescription()
     {
         return $this->description;
+    }
+
+
+    /**
+     * Set userId
+     *
+     * @param string $userId
+     * @return $this
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return string $userId
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 
     /**

@@ -13,17 +13,27 @@
     <script src="{{ asset('js/jquery-3.2.1.min.js')}}"></script>
     <script src="{{ asset('js/markedAsLiked.js')}}"></script>
     <script src="{{ asset('js/addComment.js')}}"></script>
+    <script src="{{ asset('js/changeProduct.js')}}"></script>
 {% endblock %}
 
 {% extends 'layout.html.twig' %}
 {% block body %}
     <div class="main-container">
         <div class="content">
-            <div class="product-header row col-md-12">
-                <div class="product-image col-md-3">
-                    <img src="{{product_image_link}}" />
+            {% if (is_can_change) %}
+                <div class="col-md-12 control-product-buttons">
+                    <input type="submit" value="Удалить" class="col-md-offset-9 col-md-3" id="delete-product">
                 </div>
-                <div class="product-name-section col-md-6">
+            {% endif %}
+            <div class="product-header not-padding row col-md-12">
+                <div class="product-image not-padding col-md-3">
+                    {% if (product_image_link) %}
+                        <img src="{{ product_image_link }}" class="col-md-2"/>
+                    {% else %}
+                        <img src="/images/noPhoto.png" class="col-md-2"/>
+                    {% endif %}
+                </div>
+                <div class="product-name-section not-padding col-md-6">
                     <div class="product-name col-md-12">
                         <h1>{{product_name}}</h1>
                     </div>
@@ -35,15 +45,16 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="col-md-1 marker" id="field-liked">
-                    <input id="product-id" type="hidden" value="{{ product_id }}"></input>
-                    {% if ( is_liked )  %}
-                        <div id="marker" class="marker-container marked"></div>
-                    {% else  %}
-                        <div id="marker" class="marker-container not-marked"></div>
-                    {% endif %}
+                <div class="not-padding col-md-1">
+                    <div class="col-md-12" id="field-liked">
+                        <input id="product-id" type="hidden" value="{{ product_id }}" />
+                        {% if ( is_liked )  %}
+                            <div id="marker" class="marker-container marked"></div>
+                        {% else  %}
+                            <div id="marker" class="marker-container not-marked"></div>
+                        {% endif %}
+                    </div>
                 </div>
-
             </div>
             <div class="product-footer row col-md-12">
                 <div class="product-description">
@@ -57,7 +68,6 @@
                     {% endfor %}
                 </div>
             </div>
-
             <div class="comments row col-md-11 col-md-offset-1">
                 <h3>Комментарии</h3>
                 <div class="list-comments col-md-12">

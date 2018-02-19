@@ -125,10 +125,28 @@ class PersonalAreaController extends DefaultController
             "email" => $user->getEmail(),
             'categories' => $this->getListCategories(),
             "nickname" => $user->getNickname(),
-            'avatar' => $this->getParameter(self::PHOTOS_DIRECTORY) . '/' . $user->getAvatar(),
-            "liked_product_list" => $this->getProductListWhichUserLike($user));
+            'avatar' => $user->getAvatar() == null ? "" :
+                $this->getParameter(self::PHOTOS_DIRECTORY) . '/' . $user->getAvatar(),
+            'liked_product_list' => $this->getProductListWhichUserLike($user),
+            'added_product_in_site' => $this->prepareAddedProduct($user));
 
         return $this->render(self::PERSONAL_AREA_TEMPLATE, $arr);
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    private function prepareAddedProduct($user) {
+        $records = $this->getManager()->getRepository(self::CREACTED_PRODUCT_REPOSITORY)->findBy(["userId" => $user->getId()]);
+        $preparingProducts = [];
+        foreach ($records as $value) {
+            $product = $this->prepareProductBeforeImpact($value);
+            if ($product != null) {
+                array_push($preparingProducts, $product);
+            }
+        }
+        return $preparingProducts   ;
     }
 
     /**
@@ -139,7 +157,10 @@ class PersonalAreaController extends DefaultController
         $records = $this->getRecordByUserId($user);
         $listProducts = [];
         foreach ($records as $value) {
-            array_push($listProducts, $this->prepareProductBeforeImpact($value));
+            $product = $this->prepareProductBeforeImpact($value);
+            if ($product != null) {
+                array_push($listProducts, $product);
+            }
         }
         return $listProducts;
     }
@@ -159,12 +180,14 @@ class PersonalAreaController extends DefaultController
      * @return array
      */
     private function prepareProductBeforeImpact($likedRecord) {
-        $products = $this
+        $product = $this
             ->getManager()
             ->getRepository(self::PRODUCT_REPOSITORY)
-            ->findBy(['_id' => $likedRecord->getProductId()]);
+            ->findOneBy(['_id' => $likedRecord->getProductId()]);
 
-        $product = array_shift($products);
+        if (!$product) {
+            return null;
+        }
         $item['page_link'] = $this->createPathToProduct($product);
         $item['photo_path'] = $this->createPathToPreviewProduct($product);
         $item['name'] = $product->getName();
@@ -185,6 +208,6 @@ class PersonalAreaController extends DefaultController
      */
     private function createPathToPreviewProduct($product) {
         $photo = count($product->getPhotos()) === 0 ? "" : $product->getPhotos()[0];
-        return '/' . $photo;
+        return $photo == "" ? "" : '/' . $photo;
     }
 }

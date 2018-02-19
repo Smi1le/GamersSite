@@ -9,6 +9,11 @@ $(document).ready(function() {
         $.post("/personal/update/email/" + value);
     });
 
+    $("#delete-product").blur(function() {
+        var value = $("#product-id").val();
+        $.post("/personal/update/deleteProduct/" + value);
+    });
+
     $("#nickname_field").blur(function() {
         var value = $("#nickname_field").val();
         $.post("/personal/update/nickname/" + value);

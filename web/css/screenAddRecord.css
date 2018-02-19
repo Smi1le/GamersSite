@@ -24,9 +24,9 @@ form .field-container label {width: 200px; padding-top: 5px;  color: rebeccapurp
 form .field-container .url-field {width: 95%; }
 form .field-container #photo-fields-list, #characteristic-fields-list, #link-fields-list {margin: 3px;}
 .main-col {width: 1000px;}
-form.create-product #button-add {
-    margin-bottom: 10px;
-    border: 0px;
-    background-color: #87cb00;
-    border-radius: 10px;
-}
+/*form.create-product #button-add {*/
+    /*margin-bottom: 10px;*/
+    /*border: 0px;*/
+    /*background-color: #87cb00;*/
+    /*border-radius: 10px;*/
+/*}*/

@@ -20,33 +20,6 @@ class MainController extends DefaultController
     {
         return $this->render('AcmeStoreBundle:Default:index.html.twig', array("popular_title" => "Самое популярное",
             "content_list" => $this->getProductList(),
-            "popular_list" => array(
-                array(
-                    "name" => "first",
-                    "photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-                    "page_link" => "https://vk.com/na_fokse"
-                ),
-                array(
-                    "name" => "second",
-                    "photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-                    "page_link" => "https://vk.com/na_fokse"
-                ),
-                array(
-                    "name" => "third",
-                    "photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-                    "page_link" => "https://vk.com/na_fokse"
-                ),
-                array(
-                    "name" => "fourth",
-                    "photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-                    "page_link" => "https://vk.com/na_fokse"
-                ),
-                array(
-                    "name" => "fourth",
-                    "photo_path" => "http://www.nihonbashimokei.net/data/rc-nihonbashi/image/20151029_54961c.jpg",
-                    "page_link" => "https://vk.com/na_fokse"
-                )
-            ),
             "last_added_title" => "Последние добавления",
             'categories' => $this->getListCategories()));
 
@@ -73,7 +46,11 @@ class MainController extends DefaultController
         $photoLink = "";
         if (count($photos) > 0) {
             foreach ($photos as $key => $value) {
-                $photoLink = '/' . $value;
+                if (strcasecmp("", $value) == 0) {
+                    $photoLink = "";
+                } else {
+                    $photoLink = '/' . $value;
+                }
                 break;
             }
         }

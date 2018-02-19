@@ -39,13 +39,52 @@
         </div>
         <div class="button-area col-md-2">
             <input type="submit" value="Выйти" class="exit-button" id="exit-button"/>
+            <a href="/create-product"><input type="submit" value="Добавить" class="exit-button"/></a>
         </div>
 
         <div class="user-liked col-md-12">
             <h3>Понравившиеся статьи</h3>
             {% for element in liked_product_list %}
-                {% include "car_element.html.twig" %}
+                <div class="popular-element">
+                    <div class="popular-image cursor-pointer">
+                        <a href="{{element.page_link}}">
+                            {% if (element.photo_path) %}
+                                <img src="{{ element.photo_path }}"/>
+                            {% else %}
+                                <img src="/images/noPhoto.png"/>
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="element-name cursor-pointer">
+                        <a href="{{element.page_link}}">
+                            <h4>{{element.name}}</h4>
+                        </a>
+                    </div>
+                </div>
             {% endfor %}
+        </div>
+        <div class="user-liked col-md-12">
+            <h3>Добавленные мной</h3>
+            <div class="elements-list">
+                {% for element in added_product_in_site %}
+                    <div class="popular-element">
+                        <div class="popular-image cursor-pointer">
+                            <a href="{{element.page_link}}">
+                                {% if (element.photo_path) %}
+                                    <img src="{{ element.photo_path }}"/>
+                                {% else %}
+                                    <img src="/images/noPhoto.png"/>
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="element-name cursor-pointer">
+                            <a href="{{element.page_link}}">
+                                <h4>{{element.name}}</h4>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
     <div id="upload-form">
